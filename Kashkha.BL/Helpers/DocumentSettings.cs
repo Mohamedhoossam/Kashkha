@@ -9,7 +9,7 @@ namespace Kashkha.BL
         {
             //1 get folder path
 
-            string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images");
+            string folderPath = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot/Images");
 
             //2 unique file name
 
@@ -21,11 +21,11 @@ namespace Kashkha.BL
             using (var fs = new FileStream(filePath, FileMode.Create)) 
 
             file.CopyTo(fs);
-            return fileName;
+            return "Images/"+fileName;
         }
         public static void DeleteFile(string file)
         {
-			var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images", file);
+			var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", file);
 		
 
             if (File.Exists(filePath))

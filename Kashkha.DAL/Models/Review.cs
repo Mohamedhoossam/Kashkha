@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Kashkha.DAL
@@ -16,7 +17,9 @@ namespace Kashkha.DAL
 		public string CustomerComment { get; set; }
 
 		public int ProductId { get; set; }
-		public Product Product { get; set; }=new Product();
+
+		//[JsonIgnore]
+		//public Product? Product { get; set; }=new Product();
 
     }
 }

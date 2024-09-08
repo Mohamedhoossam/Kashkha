@@ -9,8 +9,8 @@ namespace Kashkha.DAL
 	public class Category:BaseEntity //Add by super Admin
 	{
 
-		public string Name { get; set; }
-		public string Description { get; set; }
+		public string? Name { get; set; }
+		public string? Description { get; set; }
 		public ICollection<Product>? Products { get; set; }= new HashSet<Product>();
     }
 }
