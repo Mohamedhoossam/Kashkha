@@ -13,12 +13,14 @@ namespace Kashkha.BL
 
 		List<GetProductDto> GetAll();
 
-		GetProductDto Get(int id);
+		Product Get(int id);
 
 		void Add(AddProductDto productDto);
 		void Delete(Product product);
-		void Update(AddProductDto product);
+		void Update(UpdateProductDto product);
 
-		void SearchProductByName(string name);
+		List<GetProductDto> SearchProductByName(string name);
+
+		bool isFound(int id);
 	}
 }

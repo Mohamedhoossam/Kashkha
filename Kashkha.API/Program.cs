@@ -27,6 +27,7 @@ namespace Kashkha.API
 				return ConnectionMultiplexer.Connect(connection);
 			});
 
+			builder.Services.AddScoped<IReviewManager, ReviewManager>();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
@@ -41,10 +42,9 @@ namespace Kashkha.API
 			}
 
 			app.UseHttpsRedirection();
+			app.UseStaticFiles();
 
 			app.UseAuthorization();
-
-
 			app.MapControllers();
 
 			app.Run();

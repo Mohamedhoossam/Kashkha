@@ -12,12 +12,11 @@ namespace Kashkha.DAL
  
 		public string Name { get; set; }
         public string? Description { get; set; }
-      //  public string? PictureUrl { get; set; }
+        public string? PictureUrl { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
-       // public int? CategoryId { get; set; }
-       // public Category? Category { get; set; }=new Category();
-
+        public int? CategoryId { get; set; }
+         public Category? Category { get; set; }
 		//shop owner
 		//public int UserId { get; set; }
 		//public User? user { get; set; }

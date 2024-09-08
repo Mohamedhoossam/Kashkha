@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kashkha.DAL.Migrations
 {
     [DbContext(typeof(KashkhaContext))]
-    [Migration("20240907002239_first")]
+    [Migration("20240907123117_first")]
     partial class first
     {
         /// <inheritdoc />
@@ -111,11 +111,9 @@ namespace Kashkha.DAL.Migrations
 
             modelBuilder.Entity("Kashkha.DAL.Product", b =>
                 {
-                    b.HasOne("Kashkha.DAL.Category", "Category")
+                    b.HasOne("Kashkha.DAL.Category", null)
                         .WithMany("Products")
                         .HasForeignKey("CategoryId");
-
-                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Kashkha.DAL.Review", b =>
