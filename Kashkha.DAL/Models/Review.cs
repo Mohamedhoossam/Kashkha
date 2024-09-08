@@ -21,7 +21,7 @@ namespace Kashkha.DAL
 		//[JsonIgnore]
 		//public Product? Product { get; set; }=new Product();
 
-		public DateTime? CreatedDate { get; set; }
+	//	public DateTime? CreatedDate { get; set; }
 
     }
 }
