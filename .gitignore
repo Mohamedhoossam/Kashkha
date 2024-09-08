@@ -361,3 +361,13 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Kashkha.BL/DTOs/CartDTOs/AddToCartDTO.cs
+/Kashkha.BL/DTOs/CartDTOs/CheckoutDTO.cs
+/Kashkha.BL/DTOs/CartDTOs/RemoveFromCartDTO.cs
+/Kashkha.BL/DTOs/CartDTOs/UpdateCartItemDTO.cs
+/Kashkha.DAL/Models/Favorit.cs
+/Kashkha.DAL/Repositories/FevoritRepository/FavoritRepository.cs
+/Kashkha.DAL/Repositories/FevoritRepository/IFavoritRepository.cs
+/Kashkha.DAL/UnitOfWork/UnitOfWork.cs
+/Redis/Redis-x64-3.0.504/dump.rdb
+*.jpg
