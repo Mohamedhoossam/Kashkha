@@ -10,9 +10,9 @@ namespace Kashkha.BL.Managers.CartManager
 {
     public interface ICartManager
     {
-        Task<Cart?> GetCartAsync(string id);
+        Task<CartDTO?> GetCartAsync(string id);
 
-        Task<Cart?> UpdateCart(Cart cart);
+        Task<CartDTO?> UpdateCart(Cart cart);
 
         Task<bool> DeleteCart(string cartId);
 

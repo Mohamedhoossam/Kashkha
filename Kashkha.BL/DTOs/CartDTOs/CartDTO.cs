@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Kashkha.BL.DTOs.CartDTOs
 {
-    internal class CartDTO
+    public class CartDTO
     {
-        //Represents the overall cart, including a list of items and total price.
+       
 
-        public List<CartItemDTO> Items { get; set; }
-        public decimal TotalPrice { get; set; }
+        public int Id { get; set; }
+        public List<CartItemDTO> Items { get; set; } = new List<CartItemDTO>();
+        public decimal TotalPrice => Items.Sum(item => item.Price * item.Quantity);
     }
 }

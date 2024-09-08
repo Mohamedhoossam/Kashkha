@@ -30,9 +30,9 @@ namespace Kashkha.API.Controllers
         //Update or Create Cart
         public async Task<ActionResult<Cart>> UpdateOrCreateCart(Cart cart)
         {
-            var UpdatedOrDeletedCart = await cartManager.UpdateCart(cart);
-            if (UpdatedOrDeletedCart is null) return BadRequest();
-            return Ok(UpdatedOrDeletedCart);
+            var UpdatedOrCreatedCart = await cartManager.UpdateCart(cart);
+            if (UpdatedOrCreatedCart is null) return BadRequest();
+            return Ok(UpdatedOrCreatedCart);
         }
 
         [HttpDelete]
