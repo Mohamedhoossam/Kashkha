@@ -15,6 +15,7 @@ namespace Kashkha.DAL
         }
         public DbSet<Product> products { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
 
        
         

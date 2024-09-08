@@ -1,6 +1,7 @@
 
 using Kashkha.BL;
 using Kashkha.BL.Managers.CartManager;
+using Kashkha.BL.Mapping;
 using Kashkha.DAL;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
@@ -28,6 +29,8 @@ namespace Kashkha.API
 			});
 
 			builder.Services.AddScoped<IReviewManager, ReviewManager>();
+
+			builder.Services.AddAutoMapper(typeof(MappingProfile));
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
