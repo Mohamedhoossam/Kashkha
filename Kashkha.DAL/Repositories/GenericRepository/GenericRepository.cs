@@ -1,5 +1,6 @@
 ﻿
 
+
 namespace Kashkha.DAL
 {
 	public class GenericRepository<T> : IGenericRepository<T> where T : class
@@ -24,7 +25,7 @@ namespace Kashkha.DAL
 
 		public T GetFirstOrDefault(int id)
 		{
-			return _context.Set<T>().Find(id);
+			return _context.Set<T>().Find(id)!;
 		}
 
 		public List<T> GetAll()
@@ -37,7 +38,9 @@ namespace Kashkha.DAL
 			_context.Set<T>().Update(item);
 		}
 
-        
+     
+
+
 
         //public IEnumerable<T> GetAll(Expression<Func<T, bool>> pridecate, string? IncludWord)
         //{

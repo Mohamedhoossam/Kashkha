@@ -12,7 +12,8 @@ namespace Kashkha.DAL
 		public IReviewRepository _reviewRepository { get; }
 		public IOrderRepository _orderRepository { get; }
 		public IOrderItemRepository _orderItemRepository { get; }
+		public ICartRepository _cartRepository { get; }
 
-		int Complete();
+        int Complete();
 	}
 }

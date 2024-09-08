@@ -14,15 +14,17 @@ namespace Kashkha.DAL
 		public IReviewRepository _reviewRepository { get; private set; }
 		public IOrderRepository _orderRepository { get; private set; }
 		public IOrderItemRepository _orderItemRepository { get; private set; }
+		public ICartRepository _cartRepository { get; private set; }
 
 
-		public UnitOfWork(KashkhaContext context)
+        public UnitOfWork(KashkhaContext context)
 		{
 			_ProductRepository = new ProductRepository(context);
 			_reviewRepository = new ReviewRepository(context);
 			_orderRepository = new OrderRepository(context);
 			_orderItemRepository= new OrderItemRepository(context);
-			_context = context;
+			//_cartRepository= new CartRepository(context);
+            _context = context;
 		}
 
 
