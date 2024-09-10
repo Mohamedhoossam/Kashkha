@@ -1,4 +1,6 @@
-﻿using Kashkha.BL.DTOs.CartDTOs;
+﻿using AutoMapper;
+using Kashkha.BL.DTOs.CartDTOs;
+using Kashkha.BL.Mapping;
 using Kashkha.DAL;
 using StackExchange.Redis;
 using System;
@@ -12,39 +14,105 @@ namespace Kashkha.BL.Managers.CartManager
 {
     public class CartManager : ICartManager
     {
-        private readonly IDatabase _database;
 
-        public CartManager(IConnectionMultiplexer redis)
+        private readonly ICartRepository _cartRepository;
+        private readonly IProductRepository _productRepository;
+        private readonly IMapper _mapper;
+
+        public CartManager(ICartRepository cartRepository, IProductRepository productRepository, IMapper mapper)
         {
-            _database = redis.GetDatabase();
-
-        }
-        public async Task<bool> DeleteCart(string cartId)
-        {
-            return await _database.KeyDeleteAsync(cartId);
-        }
-
-        public async Task<CartDTO?> GetCartAsync(string id)
-        {
-            var cart = await _database.StringGetAsync(id);
-
-            //Deserialize=> from JSON to Cart Object
-
-            return cart.IsNull ? null : JsonSerializer.Deserialize<CartDTO>(cart);
-
-
+            _cartRepository = cartRepository;
+            _productRepository = productRepository;
+            _mapper = mapper;
         }
 
-
-        //wil be used in create or update the cart
-        public async Task<CartDTO?> UpdateCart(Cart cart)
+        public async Task<CartDTO?> GetCartAsync(string userId)
         {
-            var myCart = JsonSerializer.Serialize(cart); // from Cart Obj to JSON
-            var CreatedOrUpdated = await _database.StringSetAsync(cart.Id, myCart, TimeSpan.FromDays(3));
+            var cart = await _cartRepository.GetCartAsync(userId);
+            return _mapper.Map<CartDTO>(cart);
+        }
 
-            if (!CreatedOrUpdated) return null;
+        public async Task<CartDTO> AddToCartAsync(string userId, AddToCartDTO addToCartDto)
+        {
+            var cartEntity = await _cartRepository.GetCartAsync(userId);
+            var cart = _mapper.Map<CartDTO>(cartEntity) ?? new CartDTO { UserId = userId };
 
-            return await GetCartAsync(cart.Id);
+            var existingItem = cart.Items.FirstOrDefault(i => i.ProductId == addToCartDto.ProductId);
+            if (existingItem != null)
+            {
+                existingItem.Quantity += addToCartDto.Quantity;
+            }
+            else
+            {
+                var product = _productRepository.GetFirstOrDefault(addToCartDto.ProductId);
+                if (product == null)
+                {
+        throw new KeyNotFoundException($"Product with ID {addToCartDto.ProductId} not found");
+                }
+
+                cart.Items.Add(new CartItemDTO
+                {
+                    ProductId = product.Id,
+                    ProductName = product.Name,
+                    Price = product.Price,
+                    Quantity = addToCartDto.Quantity
+                });
+            }
+
+            var updatedCartEntity = _mapper.Map<Cart>(cart);
+            await _cartRepository.SetCartAsync(userId, updatedCartEntity);
+            return cart;
+        }
+
+        public async Task<CartDTO> UpdateCartItemQuantityAsync(string userId, int productId, int quantity)
+        {
+            var cart = await _cartRepository.GetCartAsync(userId);
+            if (cart == null)
+            {
+                throw new ArgumentException("Cart not found");
+            }
+
+            var item = cart.Items.FirstOrDefault(i => i.ProductId == productId);
+            if (item == null)
+            {
+                throw new ArgumentException("Product not in cart");
+            }
+
+            if (quantity <= 0)
+            {
+                cart.Items.Remove(item);
+            }
+            else
+            {
+                item.Quantity = quantity;
+            }
+
+            await _cartRepository.SetCartAsync(userId, cart);
+            return _mapper.Map<CartDTO>(cart);
+        }
+
+        public async Task<CartDTO> RemoveFromCartAsync(string userId, int productId)
+        {
+            var cart = await _cartRepository.GetCartAsync(userId);
+            if (cart == null)
+            {
+                throw new ArgumentException("Cart not found");
+            }
+
+            var item = cart.Items.FirstOrDefault(i => i.ProductId == productId);
+            if (item != null)
+            {
+                cart.Items.Remove(item);
+                await _cartRepository.SetCartAsync(userId, cart);
+            }
+
+            await _cartRepository.SetCartAsync(userId, cart);
+            return _mapper.Map<CartDTO>(cart);
+        }
+
+        public async Task ClearCartAsync(string userId)
+        {
+            await _cartRepository.DeleteCartAsync(userId);
         }
     }
 }

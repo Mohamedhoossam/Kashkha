@@ -12,39 +12,33 @@ namespace Kashkha.DAL
 {
     public class CartRepository : ICartRepository
     {
-        private readonly IDatabase _database;
+        private readonly IConnectionMultiplexer _redis;
+    private readonly IDatabase _db;
 
-        public CartRepository(IConnectionMultiplexer redis)
-        {
-            _database = redis.GetDatabase();
+    public CartRepository(IConnectionMultiplexer redis)
+    {
+        _redis = redis;
+        _db = redis.GetDatabase();
+    }
+        public async Task<Cart?> GetCartAsync(string userId)
+    {
+        var cartJson = await _db.StringGetAsync(GetCartKey(userId));
+        if (cartJson.IsNull)
+            return null;
+        return JsonSerializer.Deserialize<Cart>(cartJson);
+    }
 
-        }
-        public async Task<bool> DeleteCart(string cartId)
-        {
-            return await _database.KeyDeleteAsync(cartId);
-        }
+    public async Task<bool> SetCartAsync(string userId, Cart cart)
+    {
+        var cartJson = JsonSerializer.Serialize(cart);
+        return await _db.StringSetAsync(GetCartKey(userId), cartJson);
+    }
 
-        public async Task<Cart?> GetCartAsync(string id)
-        {
-            var cart = await _database.StringGetAsync(id);
+    public async Task<bool> DeleteCartAsync(string userId)
+    {
+        return await _db.KeyDeleteAsync(GetCartKey(userId));
+    }
 
-            //Deserialize=> from JSON to Cart Object
-
-            return cart.IsNull ? null : JsonSerializer.Deserialize<Cart>(cart);
-
-
-        }
-
-
-        //wil be used in create or update the cart
-        public async Task<Cart?> UpdateCart(Cart cart)
-        {
-            var myCart = JsonSerializer.Serialize(cart); // from Cart Obj to JSON
-            var CreatedOrUpdated = await _database.StringSetAsync(cart.Id, myCart, TimeSpan.FromDays(3));
-
-            if (!CreatedOrUpdated) return null;
-
-            return await GetCartAsync(cart.Id);
-        }
+    private static string GetCartKey(string userId) => $"cart:{userId}";
     }
 }

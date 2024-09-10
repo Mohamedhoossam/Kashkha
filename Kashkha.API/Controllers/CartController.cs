@@ -1,4 +1,5 @@
-﻿using Kashkha.BL.Managers.CartManager;
+﻿using Kashkha.BL.DTOs.CartDTOs;
+using Kashkha.BL.Managers.CartManager;
 using Kashkha.DAL;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,46 +10,46 @@ namespace Kashkha.API.Controllers
     [ApiController]
     public class CartController : ControllerBase
     {
-        private readonly ICartManager cartManager;
+         private readonly ICartManager _cartManager;
 
-        public CartController(ICartManager _cartManager)
+        public CartController(ICartManager cartManager)
         {
-            cartManager = _cartManager;
+            _cartManager = cartManager;
         }
 
-
-        [HttpGet]
-        public async Task<ActionResult<Cart>> GetCart(string Id)
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<CartDTO>> GetCart(string userId)
         {
-            var cart = await cartManager.GetCartAsync(Id);
-            if (cart is null) return new Cart(Id);
-            return Ok(cart);
-
+            var cart = await _cartManager.GetCartAsync(userId);
+            return cart != null ? Ok(cart) : NotFound();
         }
 
-        [HttpPost]
-        //Update or Create Cart
-        public async Task<ActionResult<Cart>> UpdateOrCreateCart(Cart cart)
+        [HttpPost("{userId}")]
+        public async Task<ActionResult<CartDTO>> AddToCart(string userId, AddToCartDTO addToCartDto)
         {
-            var UpdatedOrCreatedCart = await cartManager.UpdateCart(cart);
-            if (UpdatedOrCreatedCart is null) return BadRequest();
-            return Ok(UpdatedOrCreatedCart);
+            var updatedCart = await _cartManager.AddToCartAsync(userId, addToCartDto);
+            return Ok(updatedCart);
         }
 
-        [HttpDelete]
-        public async Task<ActionResult<bool>> DeleteCart(string id)
+        [HttpPut("{userId}/items/{productId}")]
+        public async Task<ActionResult<CartDTO>> UpdateCartItemQuantity(string userId, int productId, [FromBody] int quantity)
         {
-            return await cartManager.DeleteCart(id);
-
+            var updatedCart = await _cartManager.UpdateCartItemQuantityAsync(userId, productId, quantity);
+            return Ok(updatedCart);
         }
 
-        // [HttpPost("AddToCart")]
-        // public async Task<ActionResult<Cart>> AddToCart(string cartId, string productId, int quantity)
-        // {
-        //     var cart = await cartManager.AddToCart(cartId, productId, quantity);
-        //     if (cart is null) return BadRequest();
-        //     return Ok(cart);
-        // }
+        [HttpDelete("{userId}/items/{productId}")]
+        public async Task<ActionResult<CartDTO>> RemoveFromCart(string userId, int productId)
+        {
+            var updatedCart = await _cartManager.RemoveFromCartAsync(userId, productId);
+            return Ok(updatedCart);
+        }
 
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> ClearCart(string userId)
+        {
+            await _cartManager.ClearCartAsync(userId);
+            return NoContent();
+        }
     }
 }

@@ -10,8 +10,9 @@ namespace Kashkha.BL.DTOs.CartDTOs
     {
        
 
-        public int Id { get; set; }
-        public List<CartItemDTO> Items { get; set; } = new List<CartItemDTO>();
-        public decimal TotalPrice => Items.Sum(item => item.Price * item.Quantity);
+         public int Id { get; set; }
+    public string UserId { get; set; }
+    public List<CartItemDTO> Items { get; set; } = new();
+    public decimal TotalPrice => Items.Sum(i => i.TotalPrice);
     }
 }

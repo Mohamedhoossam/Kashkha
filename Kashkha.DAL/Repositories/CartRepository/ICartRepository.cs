@@ -10,10 +10,9 @@ namespace Kashkha.DAL
 {
     public interface ICartRepository //مش هنتعامل مع ال DB
     {
-       Task<Cart?> GetCartAsync(string id);
-
-        Task<Cart?> UpdateCart(Cart cart);
-
-        Task<bool> DeleteCart(string cartId);
+       
+    Task<Cart?> GetCartAsync(string userId);
+    Task<bool> SetCartAsync(string userId, Cart cart);
+    Task<bool> DeleteCartAsync(string userId);
     }
 }

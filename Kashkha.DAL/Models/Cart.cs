@@ -6,18 +6,12 @@ namespace Kashkha.DAL
 	public class Cart
 	{
 
-        //User ID
+       public int Id { get; set; }
+    public string UserId { get; set; } // Assuming you're using ASP.NET Core Identity
+    public List<CartItem> Items { get; set; } = new();
+    public decimal TotalPrice => Items.Sum(i => i.TotalPrice);
 
-        public string Id { get; set; }  
-
-        //public int UserId { get; set; }
-
-        
-        public virtual ICollection<CartItem> Items { get; set; } = new List<CartItem>();
-
-        public decimal TotalPrice { get; set; }
-
-        public Cart(string id)
+        public Cart(int id)
         {
             Id= id;
         }
