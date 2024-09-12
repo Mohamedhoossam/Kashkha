@@ -7,29 +7,29 @@ using System.Threading.Tasks;
 
 namespace Kashkha.DAL
 {
-    public enum PaymentStatus
-    {
-        [EnumMember(Value = "Pending")]
-        Pending,
-        [EnumMember(Value = "PaymentReceived")]
-        PaymentReceived,
-        [EnumMember(Value = "PaymentFailed")]
-        PaymentFailed
-    }
+	public enum PaymentStatus
+	{
+		[EnumMember(Value = "Pending")]
+		Pending,
+		[EnumMember(Value = "PaymentReceived")]
+		PaymentReceived,
+		[EnumMember(Value = "PaymentFailed")]
+		PaymentFailed
+	}
 
 
-    public enum OrderStatus
-    {
-        [EnumMember(Value = "Pending")]
-        Pending,
-        [EnumMember(Value = "Processing")]
-        Processing,
-        [EnumMember(Value = "Shipped")]
-        Shipped,
-        [EnumMember(Value = "Delivered")]
-        Delivered,
-        [EnumMember(Value = "Cancelled")]
-        Cancelled,
+	public enum OrderStatus
+	{
+		[EnumMember(Value = "Pending")]
+		Pending,
+		[EnumMember(Value = "Processing")]
+		Processing,
+		[EnumMember(Value = "Shipped")]
+		Shipped,
+		[EnumMember(Value = "Delivered")]
+		Delivered,
+		[EnumMember(Value = "Cancelled")]
+		Cancelled,
 
-    }
+	}
 }

@@ -17,14 +17,20 @@ namespace Kashkha.API.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult PostReview([FromForm]Review review)
+		public ActionResult PostReview([FromForm] AddReviewDto reviewDto)
 		{
-			if (review is null)
+			if (reviewDto is null)
 			{
 				return BadRequest("The comment must not be empty");
 			}
-			_reviewManager.Add(review);
-			return Ok(review);
+			_reviewManager.Add(new Review()
+			{
+				CustomerComment = reviewDto.CustomerComment,
+				CustomerId = reviewDto.CustomerId,
+				CustomerName = reviewDto.CustomerName,
+				ProductId = reviewDto.ProductId,
+			}) ;
+			return Ok(reviewDto);
 		}
 
 		[HttpDelete("{id:int}")]
@@ -43,8 +49,7 @@ namespace Kashkha.API.Controllers
 		[HttpPatch]
 		public ActionResult UpdateReview([FromForm] ReviewUpdateDto reviewDto)
 		{
-			var review = _reviewManager.GetById(reviewDto.Id);
-			if (review is null)
+			if (reviewDto is null)
 			{
 				return NotFound("No review found");
 			}

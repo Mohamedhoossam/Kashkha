@@ -8,10 +8,19 @@ namespace Kashkha.DAL
 {
 	public class Address //  ده مش هيتحول ل table 
 	{
+		public Address()
+		{
+
+		}
+		public Address(string name, string city, string street, string country)
+		{
+
+		}
+		public string Name { get; set; }
 		public string City { get; set; }
 		public string Street { get; set; }
 		public string Country { get; set; }
 
 
-    }
+	}
 }

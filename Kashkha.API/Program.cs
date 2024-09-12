@@ -29,10 +29,10 @@ namespace Kashkha.API
 			builder.Services.AddDbContext<KashkhaContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("KashkhaDb")));
 			builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 			builder.Services.AddScoped<IProductManager, ProductManager>();
-		builder.Services.AddScoped<IProductRepository, ProductRepository>();
+		    builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ICartManager, CartManager>();
 			builder.Services.AddScoped<ICartRepository, CartRepository>();
-builder.Services.AddScoped<ICartManager, CartManager>();
+            builder.Services.AddScoped<ICartManager, CartManager>();
             builder.Services.AddSingleton<IConnectionMultiplexer>(option =>
 			{
                 var connection = builder.Configuration.GetConnectionString("RedisConnection");
@@ -40,6 +40,7 @@ builder.Services.AddScoped<ICartManager, CartManager>();
 			});
 
 			builder.Services.AddScoped<IReviewManager, ReviewManager>();
+			builder.Services.AddScoped<IOrderManager, OrderManager>();
 
 			builder.Services.AddAutoMapper(typeof(MappingProfile));
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

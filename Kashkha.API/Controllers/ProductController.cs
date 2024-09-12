@@ -49,7 +49,7 @@ namespace Kashkha.API.Controllers
 				return NotFound("this product not fount");
 
 			}
-			_productManager.Delete(_productManager.Get(id));
+			_productManager.Delete(_productManager.GetWithOutUrl(id));
 			return NoContent();
 		}
 

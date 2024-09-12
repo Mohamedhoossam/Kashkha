@@ -8,7 +8,12 @@ using System.Threading.Tasks;
 
 namespace Kashkha.DAL
 {
-	public interface IOrderRepository:IGenericRepository<Order>
+	public interface IOrderRepository : IGenericRepository<Order>
 	{
+		public List<Order> GetAll(int id);
+		public Order GetOrderById(int UserId, int OrderId);
+
+
 	}
+
 }

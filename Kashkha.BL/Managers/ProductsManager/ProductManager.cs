@@ -53,6 +53,13 @@ namespace Kashkha.BL
 			product.PictureUrl = _configuration["ApiBaseUrl"] + product.PictureUrl;
 			return product;
 		}
+
+		public Product GetWithOutUrl(int id)
+		{
+			var product = _unitOfWork._ProductRepository.GetFirstOrDefault(id);
+			product.PictureUrl =product.PictureUrl;
+			return product;
+		}
 		//public GetProductDto Get(int id)
 		//{
 		//	var product = _unitOfWork._ProductRepository.GetFirstOrDefault(id);
@@ -118,5 +125,6 @@ namespace Kashkha.BL
 			return _unitOfWork._ProductRepository.isFound(id);
 		}
 
+	
 	}
 }

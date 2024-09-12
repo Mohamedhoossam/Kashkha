@@ -14,6 +14,7 @@ namespace Kashkha.BL
 		List<GetProductDto> GetAll();
 
 		Product Get(int id);
+		public Product GetWithOutUrl(int id);
 
 		void Add(AddProductDto productDto);
 		void Delete(Product product);
