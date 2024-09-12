@@ -18,15 +18,15 @@ namespace Kashkha.API.Controllers
 
 		[HttpGet]
 
-		public ActionResult GetAll()
+		public ActionResult GetAll([FromQuery] string? categoryName)
 		{
-			return Ok(_productManager.GetAll());
+			return Ok(_productManager.GetAll(categoryName));
 
 		}
 
 
 		[HttpGet("{id:int}")]
-		public ActionResult PostProduct([FromRoute] int id)
+		public ActionResult GetProduct([FromRoute] int id)
 		{
 
 
@@ -53,7 +53,7 @@ namespace Kashkha.API.Controllers
 			return NoContent();
 		}
 
-		[HttpPatch]
+		[HttpPut]
 		public ActionResult UpdateProduct([FromForm] UpdateProductDto updateProduct)
 		{
 			_productManager.Update(updateProduct);

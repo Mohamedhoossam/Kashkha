@@ -20,8 +20,8 @@ namespace Kashkha.DAL
 
 		public List<Order> GetAll(int id)
 		{
-
-			return _context.Set<Order>().Where(o => o.UserId == id).ToList(); ;
+			//Where(o => o.UserId == id && o.Id==4).ToList()
+			return _context.Set<Order>().Include(o=>o.orderItems).ToList();
 
 		}
 

@@ -27,9 +27,6 @@ namespace Kashkha.DAL
 
 		public decimal TotalPrice => Price * Quantity;
 
-		public static implicit operator OrderItem(List<OrderItem> v)
-		{
-			throw new NotImplementedException();
-		}
+	
 	}
 }

@@ -76,9 +76,14 @@ namespace Kashkha.BL
 		//	});
 		//}
 
-		public List<GetProductDto> GetAll()
+		public List<GetProductDto> GetAll(string? category)
 		{
-			var product = _unitOfWork._ProductRepository.GetAllWithCategory();
+			List<Product> product;
+			if (string.IsNullOrEmpty(category))
+				 product = _unitOfWork._ProductRepository.GetAllWithCategory();
+			else
+			 product = _unitOfWork._ProductRepository.SearchProductByCategoryName(category).ToList();
+
 			return product.Select(p => new GetProductDto() {
 				Id= p.Id,
 				ProductName=p.Name ,
@@ -92,10 +97,10 @@ namespace Kashkha.BL
 			}).ToList();
 		}
 
-		public List<GetProductDto> SearchProductByName(string name)
-		{
-		   return (List<GetProductDto>) _unitOfWork._ProductRepository.SearchProductByName(name);
-		}
+		//public List<GetProductDto> SearchProductByName(string name)
+		//{
+		//   return (List<GetProductDto>) _unitOfWork._ProductRepository.SearchProductByName(name);
+		//}
 
 		public void Update(UpdateProductDto product)
 		{

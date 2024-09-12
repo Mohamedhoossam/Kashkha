@@ -11,9 +11,9 @@ namespace Kashkha.DAL
 			_context = context;
 		}
 
-		public IQueryable<Product> SearchProductByName(string name)
+		public IQueryable<Product> SearchProductByCategoryName(string categoryName)
 		{
-			return _context.Set<Product>().Where(p=>p.Name.Contains(name, StringComparison.CurrentCultureIgnoreCase));
+			return _context.Set<Product>().Include(p => p.Category).Where(p => p.Category.Name == categoryName);
 		}
 
 		public bool isFound(int id)

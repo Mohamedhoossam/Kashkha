@@ -8,7 +8,7 @@ namespace Kashkha.BL
 {
 	public class ReviewUpdateDto
 	{
-		public int Id { get; set; }
+		public int ReviewId { get; set; }
 		public string CustomerComment { get; set; }
 
 	}

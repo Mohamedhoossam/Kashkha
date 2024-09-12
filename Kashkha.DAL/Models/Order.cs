@@ -30,7 +30,7 @@ namespace Kashkha.DAL
 		public Address OrderAddress { get; set; }
 
 
-		public ICollection<OrderItem> orderItems = new List<OrderItem>();
+		public ICollection<OrderItem> orderItems { get; set; } = new List<OrderItem>();
 
 
 

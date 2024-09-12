@@ -12,7 +12,7 @@ namespace Kashkha.BL
 	{
 		void Add(Review review);
 		void Delete(Review review);
-		void Update(ReviewUpdateDto reviewDto);
+		int? Update(ReviewUpdateDto reviewDto);
 		Review GetById(int id);
 	}
 }

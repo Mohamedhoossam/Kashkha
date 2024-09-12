@@ -11,7 +11,7 @@ namespace Kashkha.BL
 	public interface IProductManager
 	{
 
-		List<GetProductDto> GetAll();
+		List<GetProductDto> GetAll(string? category);
 
 		Product Get(int id);
 		public Product GetWithOutUrl(int id);
@@ -20,7 +20,7 @@ namespace Kashkha.BL
 		void Delete(Product product);
 		void Update(UpdateProductDto product);
 
-		List<GetProductDto> SearchProductByName(string name);
+		//List<GetProductDto> SearchProductByName(string name);
 
 		bool isFound(int id);
 	}

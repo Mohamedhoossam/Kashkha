@@ -27,13 +27,17 @@ namespace Kashkha.BL
 			_unitOfWork.Complete();
 		}
 
-		public void Update(ReviewUpdateDto reviewDto)
+		public int? Update(ReviewUpdateDto reviewDto)
 		{
-			var review = _unitOfWork._reviewRepository.GetFirstOrDefault(reviewDto.Id);
+			var review = _unitOfWork._reviewRepository.GetFirstOrDefault(reviewDto.ReviewId);
 			if (review != null)
 			{
 				review.CustomerComment=reviewDto.CustomerComment;
-				_unitOfWork.Complete();
+				return _unitOfWork.Complete();
+			}
+			else
+			{
+				return null;
 			}
 	
 		}

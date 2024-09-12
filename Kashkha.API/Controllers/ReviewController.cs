@@ -46,14 +46,18 @@ namespace Kashkha.API.Controllers
 			return NoContent();
 		}
 
-		[HttpPatch]
+		[HttpPut]
 		public ActionResult UpdateReview([FromForm] ReviewUpdateDto reviewDto)
 		{
 			if (reviewDto is null)
 			{
 				return NotFound("No review found");
 			}
-			_reviewManager.Update(reviewDto);
+
+		   var result=	_reviewManager.Update(reviewDto);
+			if (result is null)
+				return NotFound();
+
 			return NoContent();
 		}
 
