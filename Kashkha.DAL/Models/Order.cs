@@ -32,6 +32,10 @@ namespace Kashkha.DAL
 
 		public ICollection<OrderItem> orderItems { get; set; } = new List<OrderItem>();
 
+		//shop owner
+		public Guid ShopOwnerId { get; set; }
+		public ShopOwner ShopOwner { get; set; }
+
 
 
 
