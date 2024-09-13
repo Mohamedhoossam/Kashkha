@@ -1,6 +1,8 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -10,12 +12,16 @@ namespace Kashkha.DAL
 {
 	public class OrderItem : BaseEntity
 	{
+		[ForeignKey("Order")]
 		public int OrderId { get; set; }
 
-		[JsonIgnore]
+		//[JsonIgnore]
 		public Order? Order { get; set; }
 
+		//[ForeignKey("Product")]
 		public int ProductId { get; set; }
+		[NotMapped]
+		public Product? Product { get; set; }
 
 		public string ProductName { get; set; }
 

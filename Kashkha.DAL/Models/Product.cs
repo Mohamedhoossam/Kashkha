@@ -24,5 +24,10 @@ namespace Kashkha.DAL
 		public ICollection<Review>? Rewiews { get; set; } = new List<Review>();
 
 
+//shop owner
+		public Guid ShopOwnerId { get; set; }
+		public ShopOwner ShopOwner { get; set; }
+
+
 	}
 }
