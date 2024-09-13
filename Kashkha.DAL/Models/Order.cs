@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,7 @@ namespace Kashkha.DAL
 		public ICollection<OrderItem> orderItems { get; set; } = new List<OrderItem>();
 
 		//shop owner
+		[ForeignKey("ShopOwner")]
 		public Guid ShopOwnerId { get; set; }
 		public ShopOwner ShopOwner { get; set; }
 
