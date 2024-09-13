@@ -11,10 +11,11 @@ namespace Kashkha.BL.Mapping
         public MappingProfile()
         {
             CreateMap<Favorite, FavoriteDTO>().ReverseMap();
-            CreateMap<CreateFavoriteDTO, Favorite>().ReverseMap();
+           // CreateMap<CreateFavoriteDTO, Favorite>().ReverseMap();
             CreateMap<Product, UpdateProductDto>().ReverseMap();
             CreateMap<Cart, CartDTO>().ReverseMap();
             CreateMap<CartItem, CartItemDTO>().ReverseMap();
+            CreateMap<ShopOwner, ShopOwnerDTO>().ReverseMap();
         }
 
       
