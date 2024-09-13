@@ -26,6 +26,21 @@ namespace Kashkha.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ShopOwners",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShopName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProfilePicture = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShopOwners", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -45,11 +60,18 @@ namespace Kashkha.DAL.Migrations
                     OrderAddress_Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OrderAddress_City = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OrderAddress_Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrderAddress_Country = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    OrderAddress_Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShopOwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_ShopOwners_ShopOwnerId",
+                        column: x => x.ShopOwnerId,
+                        principalTable: "ShopOwners",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -63,7 +85,8 @@ namespace Kashkha.DAL.Migrations
                     PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: true)
+                    CategoryId = table.Column<int>(type: "int", nullable: true),
+                    ShopOwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,6 +96,12 @@ namespace Kashkha.DAL.Migrations
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_products_ShopOwners_ShopOwnerId",
+                        column: x => x.ShopOwnerId,
+                        principalTable: "ShopOwners",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -153,9 +182,19 @@ namespace Kashkha.DAL.Migrations
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Orders_ShopOwnerId",
+                table: "Orders",
+                column: "ShopOwnerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_products_CategoryId",
                 table: "products",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_products_ShopOwnerId",
+                table: "products",
+                column: "ShopOwnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Review_ProductId",
@@ -183,6 +222,9 @@ namespace Kashkha.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "ShopOwners");
         }
     }
 }

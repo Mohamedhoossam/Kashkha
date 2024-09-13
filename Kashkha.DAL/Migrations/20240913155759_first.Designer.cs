@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kashkha.DAL.Migrations
 {
     [DbContext(typeof(KashkhaContext))]
-    [Migration("20240911231109_first")]
+    [Migration("20240913155759_first")]
     partial class first
     {
         /// <inheritdoc />
@@ -103,6 +103,9 @@ namespace Kashkha.DAL.Migrations
                     b.Property<DateTime>("ShippingDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("ShopOwnerId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
@@ -113,6 +116,8 @@ namespace Kashkha.DAL.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ShopOwnerId");
 
                     b.ToTable("Orders");
                 });
@@ -179,9 +184,14 @@ namespace Kashkha.DAL.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("ShopOwnerId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("ShopOwnerId");
 
                     b.ToTable("products");
                 });
@@ -215,6 +225,33 @@ namespace Kashkha.DAL.Migrations
                     b.ToTable("Review");
                 });
 
+            modelBuilder.Entity("Kashkha.DAL.ShopOwner", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfilePicture")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShopName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ShopOwners");
+                });
+
             modelBuilder.Entity("Kashkha.DAL.Favorite", b =>
                 {
                     b.HasOne("Kashkha.DAL.Product", "Product")
@@ -228,6 +265,12 @@ namespace Kashkha.DAL.Migrations
 
             modelBuilder.Entity("Kashkha.DAL.Order", b =>
                 {
+                    b.HasOne("Kashkha.DAL.ShopOwner", "ShopOwner")
+                        .WithMany("Orders")
+                        .HasForeignKey("ShopOwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.OwnsOne("Kashkha.DAL.Address", "OrderAddress", b1 =>
                         {
                             b1.Property<int>("OrderId")
@@ -259,12 +302,14 @@ namespace Kashkha.DAL.Migrations
 
                     b.Navigation("OrderAddress")
                         .IsRequired();
+
+                    b.Navigation("ShopOwner");
                 });
 
             modelBuilder.Entity("Kashkha.DAL.OrderItem", b =>
                 {
                     b.HasOne("Kashkha.DAL.Order", "Order")
-                        .WithMany()
+                        .WithMany("orderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -278,7 +323,15 @@ namespace Kashkha.DAL.Migrations
                         .WithMany("Products")
                         .HasForeignKey("CategoryId");
 
+                    b.HasOne("Kashkha.DAL.ShopOwner", "ShopOwner")
+                        .WithMany("Products")
+                        .HasForeignKey("ShopOwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
+
+                    b.Navigation("ShopOwner");
                 });
 
             modelBuilder.Entity("Kashkha.DAL.Review", b =>
@@ -295,9 +348,21 @@ namespace Kashkha.DAL.Migrations
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("Kashkha.DAL.Order", b =>
+                {
+                    b.Navigation("orderItems");
+                });
+
             modelBuilder.Entity("Kashkha.DAL.Product", b =>
                 {
                     b.Navigation("Rewiews");
+                });
+
+            modelBuilder.Entity("Kashkha.DAL.ShopOwner", b =>
+                {
+                    b.Navigation("Orders");
+
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
