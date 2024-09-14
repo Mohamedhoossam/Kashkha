@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Kashkha.DAL.Repositories.UsersRepository;
+using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace Kashkha.DAL
 		public IOrderRepository _orderRepository { get; private set; }
 		public IOrderItemRepository _orderItemRepository { get; private set; }
 		public ICartRepository _cartRepository { get; private set; }
-
+        public IUsersRepository _usersRepository { get; private set; }
 
         public UnitOfWork(KashkhaContext context, IConnectionMultiplexer redis)
 		{
@@ -25,6 +26,8 @@ namespace Kashkha.DAL
 			_orderRepository = new OrderRepository(context);
 			_orderItemRepository= new OrderItemRepository(context);
 			_cartRepository= new CartRepository(redis);
+            _usersRepository = new UsersRepository(context);
+
             _context = context;
 		}
 

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Kashkha.DAL.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Kashkha.DAL
 {
-	public class KashkhaContext:DbContext
+	public class KashkhaContext:IdentityDbContext<User>
 	{
         public KashkhaContext(DbContextOptions options):base(options)
         {
