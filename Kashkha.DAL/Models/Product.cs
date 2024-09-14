@@ -20,6 +20,7 @@ namespace Kashkha.DAL
 		//shop owner
 		//public int UserId { get; set; }
 		//public User? user { get; set; }
+		//
 		
 		public ICollection<Review>? Rewiews { get; set; } = new List<Review>();
 

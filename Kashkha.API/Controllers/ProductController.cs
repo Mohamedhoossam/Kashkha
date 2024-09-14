@@ -34,6 +34,7 @@ namespace Kashkha.API.Controllers
 		}
 
 		[HttpPost]
+		
 		public ActionResult PostProduct([FromForm] AddProductDto productDto)
 		{
 
