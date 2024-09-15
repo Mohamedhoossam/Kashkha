@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Kashkha.DAL
 {
+	[NotMapped]
 	public class Address //  ده مش هيتحول ل table 
 	{
 		public Address()

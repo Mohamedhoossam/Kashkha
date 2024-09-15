@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kashkha.DAL.Repositories.UsersRepository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,8 +14,9 @@ namespace Kashkha.DAL
 		public IOrderRepository _orderRepository { get; }
 		public IOrderItemRepository _orderItemRepository { get; }
 		public ICartRepository _cartRepository { get; }
+        public IUsersRepository _usersRepository { get; }
 
 
-		int Complete();
+        int Complete();
 	}
 }
