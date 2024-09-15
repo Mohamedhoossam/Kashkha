@@ -32,7 +32,7 @@ namespace Kashkha.BL.Helpers
             var signingCredentials = new SigningCredentials(key,
                 SecurityAlgorithms.HmacSha256Signature);
 
-            var expiryDateTime = DateTime.Now.AddMinutes(10);
+            var expiryDateTime = DateTime.Now.AddMinutes(50);
 
             var jwt = new JwtSecurityToken(
                 claims: userClaims,

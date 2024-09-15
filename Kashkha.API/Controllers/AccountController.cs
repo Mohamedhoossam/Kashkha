@@ -80,7 +80,7 @@ namespace Kashkha.API.Controllers
         [Route("login")]
         public async Task<ActionResult<TokenDto>> Login(LoginDTO loginDto)
         {
-            var  user = await userManager.FindByNameAsync(loginDto.UserName);
+            var  user = await userManager.FindByEmailAsync(loginDto.Email);
             if (user == null)
             {
                 return Unauthorized("user not found"); // 401
