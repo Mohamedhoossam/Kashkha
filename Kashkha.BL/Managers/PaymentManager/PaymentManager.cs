@@ -4,26 +4,34 @@ using Stripe.Checkout;
 
 public class PaymentManager
 {
-    public async Task<Session> CreateCheckoutSessionAsync(Order order, decimal totalPrice)
+    private readonly IOrderRepository _orderRepository;
+    public PaymentManager(IOrderRepository orderRepository)
     {
+        _orderRepository = orderRepository;
+        
+    }
+
+
+    public async Task<Session> CreateCheckoutSessionAsync(int orderId, int userId)
+    {
+        var order = _orderRepository.GetOrderById(orderId, userId);
         var lineItems = new List<SessionLineItemOptions>();
 
-        foreach (var item in order.orderItems)
-        {
+        
             lineItems.Add(new SessionLineItemOptions
         {
             PriceData = new SessionLineItemPriceDataOptions
             {
-                UnitAmount = (long)(item.Product.Price * 100), 
+                UnitAmount = (long)(order.TotalPrice * 100), 
                 Currency = "usd",
-                ProductData = new SessionLineItemPriceDataProductDataOptions
-                {
-                    Name = item.Product.Name,
-                },
+                //ProductData = new SessionLineItemPriceDataProductDataOptions
+                //{
+                //    Name =order.Id,
+                //},
             },
-            Quantity = item.Quantity,
+            //Quantity = order.,
         });
-    }
+    
 
     var options = new SessionCreateOptions
     {

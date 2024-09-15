@@ -13,9 +13,9 @@ public class PaymentController : ControllerBase
     }
 
     [HttpPost("create-checkout-session")]
-    public async Task<IActionResult> CreateCheckoutSession(Order order, decimal totalPrice)
+    public async Task<IActionResult> CreateCheckoutSession(int orderId, int userId)
     {
-        var session = await _paymentManager.CreateCheckoutSessionAsync(order, totalPrice);
+        var session = await _paymentManager.CreateCheckoutSessionAsync(orderId, userId);
         return Ok(new { SessionId = session.Id });
     }
 }
