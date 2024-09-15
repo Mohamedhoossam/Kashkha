@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 [Route("api/[controller]")]
 public class ShopOwnerController : ControllerBase
 {
-    private readonly IShopOwnerManager _shopOwnerManager;
+    private readonly IShopManager _shopOwnerManager;
 
-    public ShopOwnerController(IShopOwnerManager shopOwnerManager)
+    public ShopOwnerController(IShopManager shopOwnerManager)
     {
         _shopOwnerManager = shopOwnerManager;
     }

@@ -4,12 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public class ShopOwnerManager : IShopOwnerManager
+public class ShopManager : IShopManager
 {
     private readonly IShopRepository _shopOwnerRepo;
     private readonly IMapper _mapper;
 
-    public ShopOwnerManager(IShopRepository shopOwnerRepo, IMapper mapper)
+    public ShopManager(IShopRepository shopOwnerRepo, IMapper mapper)
     {
         _shopOwnerRepo = shopOwnerRepo;
         _mapper = mapper;

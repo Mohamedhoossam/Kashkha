@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public interface IShopOwnerManager
+public interface IShopManager
 {
     Task<ShopOwnerDTO> GetByIdAsync(Guid id);
     // Task<IEnumerable<ShopOwnerDTO>> GetAllAsync();
