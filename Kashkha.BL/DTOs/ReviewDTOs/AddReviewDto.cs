@@ -8,11 +8,11 @@ namespace Kashkha.BL
 {
 	public class AddReviewDto
 	{
-		public int CustomerId { get; set; }
+		public string UserId { get; set; }
 
-		public string CustomerName { get; set; }
+		public string UserName { get; set; }
 
-		public string CustomerComment { get; set; }
+		public string UserComment { get; set; }
 
 		public int ProductId { get; set; }
 	}

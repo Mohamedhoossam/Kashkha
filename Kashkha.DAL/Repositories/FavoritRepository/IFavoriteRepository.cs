@@ -9,9 +9,13 @@ namespace Kashkha.DAL
     public interface IFavoriteRepository:IGenericRepository<Favorite>
     { 
         Task<Favorite> AddAsync(Favorite favorite);
+
         Task<Favorite> GetByIdAsync(int id);
+
         Task<IEnumerable<Favorite>> GetByUserIdAsync(string userId);
+
         Task<bool> RemoveAsync(int id);
+
         Task<bool> ExistsAsync(string userId, int productId);
     }
 }

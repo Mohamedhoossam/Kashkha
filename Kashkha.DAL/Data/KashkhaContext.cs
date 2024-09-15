@@ -31,14 +31,14 @@ namespace Kashkha.DAL
 
 				//shop owner
 				modelBuilder.Entity<Product>()
-            .HasOne(p => p.ShopOwner)
+            .HasOne(p => p.Shop)
             .WithMany(s => s.Products)
             .HasForeignKey(p => p.ShopOwnerId);
 
-				modelBuilder.Entity<Order>()
-				.HasOne(o => o.ShopOwner)
-				.WithMany(s => s.Orders)
-            .HasForeignKey(o => o.ShopOwnerId);
+				//modelBuilder.Entity<Order>()
+				//.HasOne(o => o.Shop)
+				//.WithMany(s => s.Orders)
+    //        .HasForeignKey(o => o.ShopOwnerId);
 
 			});
 
@@ -50,6 +50,7 @@ namespace Kashkha.DAL
         public DbSet<Favorite> Favorites { get; set; }
 		public DbSet<OrderItem> OrderItems { get; set; }
 		public DbSet<Order> Orders { get; set; }
-		public DbSet<ShopOwner> ShopOwners { get; set; }
-	}
+		public DbSet<Shop> Shop { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+    }
 }

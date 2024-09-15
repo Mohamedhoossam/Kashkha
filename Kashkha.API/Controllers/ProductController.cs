@@ -2,6 +2,7 @@
 using Kashkha.DAL;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Kashkha.API.Controllers
 {
@@ -20,6 +21,7 @@ namespace Kashkha.API.Controllers
 
 		public ActionResult GetAll([FromQuery] string? categoryName)
 		{
+		
 			return Ok(_productManager.GetAll(categoryName));
 
 		}

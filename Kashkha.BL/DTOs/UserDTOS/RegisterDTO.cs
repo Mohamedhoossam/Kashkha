@@ -22,11 +22,10 @@ namespace Kashkha.BL.DTOs.UserDTOS
         public string? Rolename { get; set; }
         public string? ShopName { get; set; }
         public string? Address { get; set; }
-        public string? Category { get; set; }
         public string? ImgUrl { get; set; }
-        [JsonIgnore]
-        public IEnumerable<Order>? Orders { get; set; } = Enumerable.Empty<Order>();
-        [JsonIgnore]
-        public Shop? Shop { get; set; }
+        //[JsonIgnore]
+        //public IEnumerable<Order>? Orders { get; set; } = Enumerable.Empty<Order>();
+        //[JsonIgnore]
+        //public Shop? Shop { get; set; }
     }
 }

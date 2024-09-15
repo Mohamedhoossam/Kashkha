@@ -15,7 +15,7 @@ namespace Kashkha.BL.Mapping
             CreateMap<Product, UpdateProductDto>().ReverseMap();
             CreateMap<Cart, CartDTO>().ReverseMap();
             CreateMap<CartItem, CartItemDTO>().ReverseMap();
-            CreateMap<ShopOwner, ShopOwnerDTO>().ReverseMap();
+            CreateMap<Shop, ShopOwnerDTO>().ReverseMap();
         }
 
       

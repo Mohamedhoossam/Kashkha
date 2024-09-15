@@ -10,18 +10,18 @@ namespace Kashkha.DAL
 {
 	public class Review:BaseEntity
 	{
-        public int CustomerId { get; set; }
+        public string UserId { get; set; }
 
-		public string CustomerName {  get; set; }
+		public string UserName {  get; set; }
 
-		public string CustomerComment { get; set; }
+		public string UserComment { get; set; }
 
 		public int ProductId { get; set; }
 
 		//[JsonIgnore]
-		//public Product? Product { get; set; }=new Product();
+		public Product? Product { get; set; }
 
-	//	public DateTime? CreatedDate { get; set; }
+			public DateTime? CreatedDate { get; set; }=DateTime.Now;
 
-    }
+	}
 }

@@ -2,6 +2,7 @@
 using Kashkha.BL.DTOs.CartDTOs;
 using Kashkha.BL.Mapping;
 using Kashkha.DAL;
+using Microsoft.Extensions.Configuration;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -18,17 +19,23 @@ namespace Kashkha.BL.Managers.CartManager
         private readonly ICartRepository _cartRepository;
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _config;
 
-        public CartManager(ICartRepository cartRepository, IProductRepository productRepository, IMapper mapper)
+        public CartManager(ICartRepository cartRepository, IProductRepository productRepository, IMapper mapper, IConfiguration configuration)
         {
             _cartRepository = cartRepository;
             _productRepository = productRepository;
             _mapper = mapper;
+            _config = configuration;
         }
 
         public async Task<CartDTO?> GetCartAsync(string userId)
         {
             var cart = await _cartRepository.GetCartAsync(userId);
+            foreach (var item in cart.Items)
+            {
+                item.PicUrl = _config["ApiBaseUrl"] + item.PicUrl;
+            }
             return _mapper.Map<CartDTO>(cart);
         }
 
@@ -54,6 +61,7 @@ namespace Kashkha.BL.Managers.CartManager
                 {
                     ProductId = product.Id,
                     ProductName = product.Name,
+                    PicUrl=product.PictureUrl,
                     Price = product.Price,
                     Quantity = addToCartDto.Quantity
                 });

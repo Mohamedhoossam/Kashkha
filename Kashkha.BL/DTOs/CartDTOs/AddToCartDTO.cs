@@ -10,6 +10,7 @@ namespace Kashkha.BL.DTOs.CartDTOs
 	{ 
 		//Used when adding an item to the cart, containing product ID and quantity
 		public int ProductId { get; set; }
+		
 		public int Quantity { get; set; }
 	}
 }

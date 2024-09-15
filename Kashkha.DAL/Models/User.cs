@@ -20,6 +20,7 @@ namespace Kashkha.DAL.Models
         public IEnumerable<Order>? Orders { get; set; } = Enumerable.Empty<Order>();
         [JsonIgnore]
 
-        public Shop? Shop { get; set; }
+        public Guid? Shop { get; set; }
+       
     }
 }

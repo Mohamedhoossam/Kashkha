@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kashkha.DAL.Migrations
 {
     [DbContext(typeof(KashkhaContext))]
-    [Migration("20240914220730_auth")]
-    partial class auth
+    [Migration("20240915142525_first")]
+    partial class first
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,11 +60,11 @@ namespace Kashkha.DAL.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Favorites");
                 });
@@ -127,8 +127,8 @@ namespace Kashkha.DAL.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ShopId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("Shop")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ShopName")
                         .HasColumnType("nvarchar(max)");
@@ -149,8 +149,6 @@ namespace Kashkha.DAL.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("ShopId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -295,57 +293,36 @@ namespace Kashkha.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CustomerComment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CustomerName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserComment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Review");
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Kashkha.DAL.Shop", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Shop");
-                });
-
-            modelBuilder.Entity("Kashkha.DAL.ShopOwner", b =>
-                {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProfilePicture")
                         .IsRequired()
@@ -355,9 +332,15 @@ namespace Kashkha.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("ShopOwners");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Shop");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -495,28 +478,19 @@ namespace Kashkha.DAL.Migrations
 
             modelBuilder.Entity("Kashkha.DAL.Favorite", b =>
                 {
-                    b.HasOne("Kashkha.DAL.Product", "Product")
+                    b.HasOne("Kashkha.DAL.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Kashkha.DAL.Models.User", b =>
-                {
-                    b.HasOne("Kashkha.DAL.Shop", "Shop")
-                        .WithMany()
-                        .HasForeignKey("ShopId");
-
-                    b.Navigation("Shop");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Kashkha.DAL.Order", b =>
                 {
-                    b.HasOne("Kashkha.DAL.ShopOwner", "ShopOwner")
-                        .WithMany("Orders")
+                    b.HasOne("Kashkha.DAL.Shop", "Shop")
+                        .WithMany()
                         .HasForeignKey("ShopOwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -557,7 +531,7 @@ namespace Kashkha.DAL.Migrations
                     b.Navigation("OrderAddress")
                         .IsRequired();
 
-                    b.Navigation("ShopOwner");
+                    b.Navigation("Shop");
                 });
 
             modelBuilder.Entity("Kashkha.DAL.OrderItem", b =>
@@ -577,7 +551,7 @@ namespace Kashkha.DAL.Migrations
                         .WithMany("Products")
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("Kashkha.DAL.ShopOwner", "ShopOwner")
+                    b.HasOne("Kashkha.DAL.Shop", "Shop")
                         .WithMany("Products")
                         .HasForeignKey("ShopOwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -585,16 +559,29 @@ namespace Kashkha.DAL.Migrations
 
                     b.Navigation("Category");
 
-                    b.Navigation("ShopOwner");
+                    b.Navigation("Shop");
                 });
 
             modelBuilder.Entity("Kashkha.DAL.Review", b =>
                 {
-                    b.HasOne("Kashkha.DAL.Product", null)
+                    b.HasOne("Kashkha.DAL.Product", "Product")
                         .WithMany("Rewiews")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Kashkha.DAL.Shop", b =>
+                {
+                    b.HasOne("Kashkha.DAL.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -668,10 +655,8 @@ namespace Kashkha.DAL.Migrations
                     b.Navigation("Rewiews");
                 });
 
-            modelBuilder.Entity("Kashkha.DAL.ShopOwner", b =>
+            modelBuilder.Entity("Kashkha.DAL.Shop", b =>
                 {
-                    b.Navigation("Orders");
-
                     b.Navigation("Products");
                 });
 #pragma warning restore 612, 618

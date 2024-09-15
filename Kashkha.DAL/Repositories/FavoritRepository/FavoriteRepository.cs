@@ -31,7 +31,7 @@ namespace Kashkha.DAL
         {
             return await _context.Favorites
                 .Where(f => f.UserId == userId)
-                .Include(f => f.Product)
+                .Include(f => f.ProductId)
                 .ToListAsync();
         }
 

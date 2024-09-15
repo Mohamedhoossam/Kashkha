@@ -17,17 +17,14 @@ namespace Kashkha.DAL
 		public int Quantity { get; set; }
 		public int? CategoryId { get; set; }
 		public Category? Category { get; set; }
-		//shop owner
-		//public int UserId { get; set; }
-		//public User? user { get; set; }
-		//
+		
 		
 		public ICollection<Review>? Rewiews { get; set; } = new List<Review>();
 
 
-//shop owner
+       //shop owner
 		public Guid ShopOwnerId { get; set; }
-		public ShopOwner ShopOwner { get; set; }
+		public Shop? Shop { get; set; }
 
 
 	}

@@ -10,14 +10,7 @@ namespace Kashkha.DAL
 	[NotMapped]
 	public class Address //  ده مش هيتحول ل table 
 	{
-		public Address()
-		{
-
-		}
-		public Address(string name, string city, string street, string country)
-		{
-
-		}
+       
 		public string Name { get; set; }
 		public string City { get; set; }
 		public string Street { get; set; }

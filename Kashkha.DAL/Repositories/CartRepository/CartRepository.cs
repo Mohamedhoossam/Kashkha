@@ -25,8 +25,10 @@ namespace Kashkha.DAL
         var cartJson = await _db.StringGetAsync(GetCartKey(userId));
         if (cartJson.IsNull)
             return null;
-        return JsonSerializer.Deserialize<Cart>(cartJson);
-    }
+           
+            return JsonSerializer.Deserialize<Cart>(cartJson);
+           
+        }
 
     public async Task<bool> SetCartAsync(string userId, Cart cart)
     {

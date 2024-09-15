@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 public class ShopOwnerManager : IShopOwnerManager
 {
-    private readonly IShopOwnerRepository _shopOwnerRepo;
+    private readonly IShopRepository _shopOwnerRepo;
     private readonly IMapper _mapper;
 
-    public ShopOwnerManager(IShopOwnerRepository shopOwnerRepo, IMapper mapper)
+    public ShopOwnerManager(IShopRepository shopOwnerRepo, IMapper mapper)
     {
         _shopOwnerRepo = shopOwnerRepo;
         _mapper = mapper;
@@ -29,14 +29,14 @@ public class ShopOwnerManager : IShopOwnerManager
 
     public async Task<ShopOwnerDTO> AddAsync(ShopOwnerDTO shopOwnerDto)
     {
-        var shopOwner = _mapper.Map<ShopOwner>(shopOwnerDto);
+        var shopOwner = _mapper.Map<Shop>(shopOwnerDto);
         await _shopOwnerRepo.AddAsync(shopOwner);
         return _mapper.Map<ShopOwnerDTO>(shopOwner);
     }
 
     public async Task UpdateAsync(ShopOwnerDTO shopOwnerDto)
     {
-        var shopOwner = _mapper.Map<ShopOwner>(shopOwnerDto);
+        var shopOwner = _mapper.Map<Shop>(shopOwnerDto);
         await _shopOwnerRepo.UpdateAsync(shopOwner);
     }
 

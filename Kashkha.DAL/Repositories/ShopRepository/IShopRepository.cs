@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace Kashkha.DAL
 {
-    internal interface IShopRepository:IGenericRepository<Shop>
+    public interface IShopRepository:IGenericRepository<Shop>
     {
-
+        Task<Shop> GetByIdAsync(Guid id);
+        //  Task<IEnumerable<ShopOwner>> GetAllAsync();
+        Task<Shop> AddAsync(Shop shop);
+        Task UpdateAsync(Shop shop);
+        Task DeleteAsync(Guid id);
     }
 }

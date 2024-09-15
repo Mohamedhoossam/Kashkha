@@ -15,7 +15,9 @@ namespace Kashkha.BL.Managers.CartManager
     Task<CartDTO> AddToCartAsync(string userId, AddToCartDTO addToCartDto);
 
     Task<CartDTO> UpdateCartItemQuantityAsync(string userId, int productId, int quantity);
+
     Task<CartDTO> RemoveFromCartAsync(string userId, int productId);
+
     Task ClearCartAsync(string userId);
 
     }

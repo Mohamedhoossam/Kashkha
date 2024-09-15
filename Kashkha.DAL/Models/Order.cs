@@ -34,9 +34,9 @@ namespace Kashkha.DAL
 		public ICollection<OrderItem> orderItems { get; set; } = new List<OrderItem>();
 
 		//shop owner
-		[ForeignKey("ShopOwner")]
+		[ForeignKey("Shop")]
 		public Guid ShopOwnerId { get; set; }
-		public ShopOwner ShopOwner { get; set; }
+		public Shop? Shop { get; set; }
 
 
 

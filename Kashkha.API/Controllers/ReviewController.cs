@@ -25,9 +25,9 @@ namespace Kashkha.API.Controllers
 			}
 			_reviewManager.Add(new Review()
 			{
-				CustomerComment = reviewDto.CustomerComment,
-				CustomerId = reviewDto.CustomerId,
-				CustomerName = reviewDto.CustomerName,
+				UserComment = reviewDto.UserComment,
+				UserId = reviewDto.UserId,
+				UserName = reviewDto.UserName,
 				ProductId = reviewDto.ProductId,
 			}) ;
 			return Ok(reviewDto);

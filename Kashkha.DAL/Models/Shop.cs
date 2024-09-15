@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kashkha.DAL.Models;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -6,13 +7,26 @@ using System.Text;
 
 namespace Kashkha.DAL
 {
-	public class Shop : BaseEntity
+	public class Shop
     {
 
-        public string Name { get; set; }
-        [NotMapped]
+        public Guid Id { get; set; }
 
-        public virtual Address Address { get; set; }
+        [ForeignKey("User")]
+        public string UserId { get; set; }
+        public virtual User? User { get; set; }
+
+
+
+        public string ShopName { get; set; }
+
+        [NotMapped]
+        public Address Address { get; set; }
+
+        public string ProfilePicture { get; set; }
+
+        public ICollection<Product> Products { get; set; }
+        // public ICollection<Order> Orders { get; set; }
     }
 
 }

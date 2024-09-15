@@ -32,7 +32,7 @@ namespace Kashkha.BL
 			var review = _unitOfWork._reviewRepository.GetFirstOrDefault(reviewDto.ReviewId);
 			if (review != null)
 			{
-				review.CustomerComment=reviewDto.CustomerComment;
+				review.UserId=reviewDto.CustomerComment;
 				return _unitOfWork.Complete();
 			}
 			else
