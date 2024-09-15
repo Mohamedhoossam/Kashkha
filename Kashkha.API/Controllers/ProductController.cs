@@ -21,7 +21,7 @@ namespace Kashkha.API.Controllers
 
 		public ActionResult GetAll([FromQuery] string? categoryName)
 		{
-		
+		//
 			return Ok(_productManager.GetAll(categoryName));
 
 		}
