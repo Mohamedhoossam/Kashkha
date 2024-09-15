@@ -13,7 +13,8 @@ namespace Kashkha.DAL.Models
 
         public string? ShopName { get; set; }
         public string Rolename { get; set; }
-        public string? Address { get; set; }
+        public string? City { get; set; }
+        public string? Street { get; set; }
         public string? Category { get; set; }
         public string? ImgUrl { get; set; }
         [JsonIgnore]

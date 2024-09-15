@@ -44,7 +44,8 @@ namespace Kashkha.API.Controllers
                     Email = _reginfo.Email,
                     PhoneNumber = _reginfo.Phone,
                     ShopName = _reginfo.Shop.ShopName,
-                    Address = _reginfo.Shop.Address.Street,
+                    City = _reginfo.Shop.City,
+                    Street = _reginfo.Shop.Street,
                     ImgUrl = _reginfo.Shop.ProfilePicture
                     
 
