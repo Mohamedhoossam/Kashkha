@@ -11,9 +11,23 @@ namespace Kashkha.DAL
 			_context = context;
 		}
 
-		public IQueryable<Product> SearchProductByCategoryName(string categoryName)
+		public IQueryable<Product> SearchProductBy(string? categoryName, Guid? shopId)
 		{
-			return _context.Set<Product>().Include(p => p.Category).Where(p => p.Category.Name == categoryName);
+		
+			if(categoryName is not null && shopId is not null)
+			{
+				return _context.Set<Product>().Include(p => p.Category).Include(p => p.Rewiews).Include(p => p.Shop).Where(p => p.Category.Name == categoryName && p.ShopId== shopId);
+
+			}
+			else if (categoryName is not null)
+			{
+				return _context.Set<Product>().Include(p => p.Category).Include(p => p.Rewiews).Include(p => p.Shop).Where(p => p.Category.Name == categoryName);
+
+			}
+			else
+			{
+				return _context.Set<Product>().Include(p => p.Category).Include(p => p.Rewiews).Include(p => p.Shop).Where(p => p.ShopId == shopId);
+			}
 		}
 
 		public bool isFound(int id)

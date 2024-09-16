@@ -69,13 +69,13 @@ namespace Kashkha.BL
 		}
 	
 
-		public List<GetProductDto> GetAll(string? category)
+		public List<GetProductDto> GetAll(string? category, Guid? shopId)
 		{
 			List<Product> product;
-			if (string.IsNullOrEmpty(category))
-				 product = _unitOfWork._ProductRepository.GetAllWithCategory();
+			if (category is not null || shopId is not null)
+				product = _unitOfWork._ProductRepository.SearchProductBy(category, shopId).ToList();
 			else
-			 product = _unitOfWork._ProductRepository.SearchProductByCategoryName(category).ToList();
+				product = _unitOfWork._ProductRepository.GetAllWithCategory();
 
 			return product.Select(p => new GetProductDto() {
 				Id= p.Id,
@@ -94,9 +94,14 @@ namespace Kashkha.BL
 		}
 
 	
-		public void Update(UpdateProductDto product)
+		public int? Update(UpdateProductDto product, string userId)
 		{
-			var newProduct = _unitOfWork._ProductRepository.GetFirstOrDefault(product.Id);
+			var newProduct = _unitOfWork._ProductRepository.GetByIdWithCategory(product.Id);
+
+			if(newProduct.Shop.UserId != userId)
+			{
+				return null;
+			}
 			string oldImage="";
 			newProduct!.Name = product.ProductName?? newProduct!.Name;
 			newProduct!.Description = product.Description?? newProduct!.Description;
@@ -113,7 +118,7 @@ namespace Kashkha.BL
 
 			if (result > 0)
 				DocumentSettings.DeleteFile(oldImage);
-
+			return result;
 
 		}
 

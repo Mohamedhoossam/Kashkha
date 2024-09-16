@@ -1,12 +1,16 @@
 ﻿using Kashkha.BL;
 using Kashkha.DAL;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Kashkha.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
+
 	public class ReviewController : ControllerBase
 	{
 		private readonly IReviewManager _reviewManager;
@@ -19,6 +23,9 @@ namespace Kashkha.API.Controllers
 		[HttpPost]
 		public ActionResult PostReview([FromForm] AddReviewDto reviewDto)
 		{
+			var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+			var usernName = User.FindFirst(ClaimTypes.Name)?.Value;
+
 			if (reviewDto is null)
 			{
 				return BadRequest("The comment must not be empty");
@@ -26,8 +33,8 @@ namespace Kashkha.API.Controllers
 			_reviewManager.Add(new Review()
 			{
 				UserComment = reviewDto.UserComment,
-				UserId = reviewDto.UserId,
-				UserName = reviewDto.UserName,
+				UserId = userId,
+				UserName = usernName,
 				ProductId = reviewDto.ProductId,
 			}) ;
 			return Ok(reviewDto);

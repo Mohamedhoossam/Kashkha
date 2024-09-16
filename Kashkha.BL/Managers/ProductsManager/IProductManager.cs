@@ -11,14 +11,14 @@ namespace Kashkha.BL
 	public interface IProductManager
 	{
 
-		List<GetProductDto> GetAll(string? category);
+		List<GetProductDto> GetAll(string? category,Guid? shopId);
 
 		Product Get(int id);
 		public Product GetWithOutUrl(int id);
 
 		void Add(AddProductDto productDto, string userId);
 		int? Delete(Product product,string userId);
-		void Update(UpdateProductDto product);
+		int? Update(UpdateProductDto product,string userId);
 
 		//List<GetProductDto> SearchProductByName(string name);
 

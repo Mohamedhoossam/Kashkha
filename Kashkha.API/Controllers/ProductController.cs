@@ -20,10 +20,9 @@ namespace Kashkha.API.Controllers
 
 		[HttpGet]
 
-		public ActionResult GetAll([FromQuery] string? categoryName)
+		public ActionResult GetAll([FromQuery] string? categoryName,Guid? shopId)
 		{
-		//
-			return Ok(_productManager.GetAll(categoryName));
+			return Ok(_productManager.GetAll(categoryName, shopId));
 
 		}
 
@@ -67,7 +66,13 @@ namespace Kashkha.API.Controllers
 		[Authorize(Roles = "Shop Owner")]
 		public ActionResult UpdateProduct([FromForm] UpdateProductDto updateProduct)
 		{
-			_productManager.Update(updateProduct);
+			var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+			var result=_productManager.Update(updateProduct,userId);
+			if(result is null)
+			{
+				BadRequest("you not have access to this data");
+			}
 			return NoContent();
 
 		}
