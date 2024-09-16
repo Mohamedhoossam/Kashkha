@@ -29,15 +29,23 @@ public class ShopManager : IShopManager
     //     return _mapper.Map<IEnumerable<ShopOwnerDTO>>(shopOwners);
     // }
 
-    public async Task<ShopOwnerDTO> AddAsync(ShopOwnerDTO shopOwnerDto)
+    public async Task<int?> AddAsync(ShopOwnerDTO shopOwnerDto)
     {
         var img = DocumentSettings.UploadFile(shopOwnerDto.ProfilePicture);
 
-        var shopOwner = _mapper.Map<Shop>(shopOwnerDto);
-        await _unitOfWork._shopRepository.AddAsync(shopOwner);
-        shopOwner.ProfilePicture = img;
-        
-        return _mapper.Map<ShopOwnerDTO>(shopOwner);
+     //   var shopOwner = _mapper.Map<Shop>(shopOwnerDto);
+        await _unitOfWork._shopRepository.AddAsync(new Shop(){
+            Id= (Guid)shopOwnerDto.Id,
+            ProfilePicture=img,
+            ShopName=shopOwnerDto.ShopName,
+            UserId=shopOwnerDto.UserId,
+            
+
+        });
+       int? result= _unitOfWork.Complete();
+        if (result is null)
+            return null;
+        return result;
     }
 
     public async Task UpdateAsync(ShopOwnerDTO shopOwnerDto)

@@ -35,8 +35,10 @@ public class ShopOwnerController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ShopOwnerDTO>> Create(ShopOwnerDTO shopOwnerDto)
     {
-        var createdShopOwner = await _shopOwnerManager.AddAsync(shopOwnerDto);
-        return CreatedAtAction(nameof(GetById), new { id = createdShopOwner.Id }, createdShopOwner);
+        var result = await _shopOwnerManager.AddAsync(shopOwnerDto);
+        if (result is null)
+            return BadRequest();
+        return Ok();
     }
 
     [HttpPut("{id}")]

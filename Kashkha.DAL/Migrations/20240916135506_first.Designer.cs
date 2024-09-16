@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kashkha.DAL.Migrations
 {
     [DbContext(typeof(KashkhaContext))]
-    [Migration("20240916115657_first")]
+    [Migration("20240916135506_first")]
     partial class first
     {
         /// <inheritdoc />

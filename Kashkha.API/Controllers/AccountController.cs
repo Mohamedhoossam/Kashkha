@@ -60,24 +60,6 @@ namespace Kashkha.API.Controllers
                     return BadRequest(result.Errors);
                 }
 
-                if (_reginfo.Rolename == "Shop Owner")
-                {
-                    usr.ShopId = i;
-                    shop = new ShopOwnerDTO
-                    {
-                        Id = i,
-                         UserId=usr.Id,
-                        ShopName = _reginfo.Shop.ShopName,
-                        ProfilePicture = _reginfo.Shop.ProfilePicture,
-                        City = _reginfo.Shop.City,
-                        Street = _reginfo.Shop.Street,
-                          
-
-
-                    };
-
-                    _shopManager.AddAsync(shop);
-                }
               
 
                
@@ -90,8 +72,26 @@ namespace Kashkha.API.Controllers
                };
                
                 await userManager.AddClaimsAsync(usr, claims);
+				if (_reginfo.Rolename == "Shop Owner")
+				{
+					usr.ShopId = i;
+					shop = new ShopOwnerDTO
+					{
+						Id = i,
+						UserId = usr.Id,
+						ShopName = _reginfo.Shop.ShopName,
+						ProfilePicture = _reginfo.Shop.ProfilePicture,
+						City = _reginfo.Shop.City,
+						Street = _reginfo.Shop.Street,
 
-                return Ok("sucessed");
+
+
+					};
+
+					await _shopManager.AddAsync(shop);
+				}
+
+				return Ok("sucessed");
             }
             var errors=ModelState.Values.Select(x=>x.Errors.Select(y=>y.ErrorMessage));
             return BadRequest(errors);

@@ -43,8 +43,6 @@ namespace Kashkha.API
 		    builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ICartManager, CartManager>();
 			builder.Services.AddScoped<ICartRepository, CartRepository>();
-            builder.Services.AddScoped<ICartManager, CartManager>();
-			builder.Services.AddScoped<IShopRepository,ShopRepository >();
 			builder.Services.AddScoped<IShopManager, ShopManager>();
             builder.Services.AddSingleton<IConnectionMultiplexer>(option =>
 			{
