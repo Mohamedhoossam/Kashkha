@@ -105,6 +105,7 @@ namespace Kashkha.API
                 options.AddPolicy("ShopOwnersOnly", policy =>
                    policy.RequireRole("Shop Owner"));
             });
+
             // Configure CORS
             builder.Services.AddCors(options =>
             {
@@ -112,7 +113,8 @@ namespace Kashkha.API
                     policy => policy
                         .WithOrigins("http://localhost:4200")
                         .AllowAnyHeader()
-                        .AllowAnyMethod());
+                        .AllowAnyMethod()
+                        .AllowCredentials());
             });
 
             var app = builder.Build();
@@ -137,8 +139,10 @@ namespace Kashkha.API
                 }
             }
 
+       
             app.UseHttpsRedirection();
-			app.UseStaticFiles();
+            app.UseCors("AllowLocalhost4200");
+            app.UseStaticFiles();
             app.UseAuthentication();
 			app.UseAuthorization();
 			app.MapControllers();
