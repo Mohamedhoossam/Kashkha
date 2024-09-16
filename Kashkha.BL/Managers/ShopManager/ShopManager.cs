@@ -1,4 +1,5 @@
 using AutoMapper;
+using Kashkha.BL;
 using Kashkha.DAL;
 using System;
 using System.Collections.Generic;
@@ -29,8 +30,12 @@ public class ShopManager : IShopManager
 
     public async Task<ShopOwnerDTO> AddAsync(ShopOwnerDTO shopOwnerDto)
     {
+        var img = DocumentSettings.UploadFile(shopOwnerDto.ProfilePicture);
+
         var shopOwner = _mapper.Map<Shop>(shopOwnerDto);
         await _shopOwnerRepo.AddAsync(shopOwner);
+        shopOwner.ProfilePicture = img;
+        
         return _mapper.Map<ShopOwnerDTO>(shopOwner);
     }
 

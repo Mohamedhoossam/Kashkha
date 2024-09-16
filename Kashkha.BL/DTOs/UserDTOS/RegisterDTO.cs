@@ -21,6 +21,7 @@ namespace Kashkha.BL.DTOs.UserDTOS
         public string C_Password { get; set; }
 
         public string? Rolename { get; set; }
+
         public ShopOwnerDTO? Shop { get; set; }
         //public string? ShopName { get; set; }
         //public string? Address { get; set; }
