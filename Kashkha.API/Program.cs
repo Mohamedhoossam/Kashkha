@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Kashkha.BL.Managers.UsersManager;
+using Kashkha.BL.Helpers;
+using Stripe;
 
 namespace Kashkha.API
 {
@@ -116,11 +118,18 @@ namespace Kashkha.API
                         .AllowAnyMethod()
                         .AllowCredentials());
             });
-
             var app = builder.Build();
+            using (var s = app.Services.CreateScope())
+            {
+                var userManager = s.ServiceProvider.GetRequiredService<UserManager<User>>();
+                 await UserSeeding.SeedUser(userManager);
+                  
+            }
 
-			// Configure the HTTP request pipeline.
-			if (app.Environment.IsDevelopment())
+            ////var s = app.Services.GetRequiredService<UserManager<User>>();
+            //// UserSeeding.SeedUser(s);
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
 			{
 				app.UseSwagger();
 				app.UseSwaggerUI();
