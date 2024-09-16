@@ -7,18 +7,19 @@ using System.Threading.Tasks;
 
 public class ShopManager : IShopManager
 {
-    private readonly IShopRepository _shopOwnerRepo;
-    private readonly IMapper _mapper;
+	private readonly IUnitOfWork _unitOfWork;
+	private readonly IMapper _mapper;
 
-    public ShopManager(IShopRepository shopOwnerRepo, IMapper mapper)
+    public ShopManager(IUnitOfWork unitOfWork, IMapper mapper)
     {
-        _shopOwnerRepo = shopOwnerRepo;
-        _mapper = mapper;
+      
+		_unitOfWork = unitOfWork;
+		_mapper = mapper;
     }
 
     public async Task<ShopOwnerDTO> GetByIdAsync(Guid id)
     {
-        var shopOwner = await _shopOwnerRepo.GetByIdAsync(id);
+        var shopOwner = await _unitOfWork._shopRepository.GetByIdAsync(id);
         return _mapper.Map<ShopOwnerDTO>(shopOwner);
     }
 
@@ -33,7 +34,7 @@ public class ShopManager : IShopManager
         var img = DocumentSettings.UploadFile(shopOwnerDto.ProfilePicture);
 
         var shopOwner = _mapper.Map<Shop>(shopOwnerDto);
-        await _shopOwnerRepo.AddAsync(shopOwner);
+        await _unitOfWork._shopRepository.AddAsync(shopOwner);
         shopOwner.ProfilePicture = img;
         
         return _mapper.Map<ShopOwnerDTO>(shopOwner);
@@ -42,11 +43,11 @@ public class ShopManager : IShopManager
     public async Task UpdateAsync(ShopOwnerDTO shopOwnerDto)
     {
         var shopOwner = _mapper.Map<Shop>(shopOwnerDto);
-        await _shopOwnerRepo.UpdateAsync(shopOwner);
+        await _unitOfWork._shopRepository.UpdateAsync(shopOwner);
     }
 
     public async Task DeleteAsync(Guid id)
     {
-        await _shopOwnerRepo.DeleteAsync(id);
+        await _unitOfWork._shopRepository.DeleteAsync(id);
     }
 }

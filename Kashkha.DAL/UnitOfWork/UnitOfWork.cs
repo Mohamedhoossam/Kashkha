@@ -18,8 +18,9 @@ namespace Kashkha.DAL
 		public IOrderItemRepository _orderItemRepository { get; private set; }
 		public ICartRepository _cartRepository { get; private set; }
         public IUsersRepository _usersRepository { get; private set; }
+		public IShopRepository _shopRepository { get; private set; }
 
-        public UnitOfWork(KashkhaContext context, IConnectionMultiplexer redis)
+		public UnitOfWork(KashkhaContext context, IConnectionMultiplexer redis)
 		{
 			_ProductRepository = new ProductRepository(context);
 			_reviewRepository = new ReviewRepository(context);
@@ -27,6 +28,8 @@ namespace Kashkha.DAL
 			_orderItemRepository= new OrderItemRepository(context);
 			_cartRepository= new CartRepository(redis);
             _usersRepository = new UsersRepository(context);
+			_shopRepository = new ShopRepository(context);
+
 
             _context = context;
 		}
