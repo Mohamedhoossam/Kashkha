@@ -36,7 +36,7 @@ namespace Kashkha.API.Controllers
 
         #region Register
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromForm]RegisterDTO _reginfo)
+        public async Task<IActionResult> Register([FromForm] RegisterDTO _reginfo)
         {
             var i =Guid.NewGuid();
             //assign user data from dto to database
