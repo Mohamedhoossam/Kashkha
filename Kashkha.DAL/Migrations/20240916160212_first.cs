@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Kashkha.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class auth : Migration
+    public partial class first : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -265,7 +265,7 @@ namespace Kashkha.DAL.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: true),
-                    ShopOwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ShopId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -276,8 +276,8 @@ namespace Kashkha.DAL.Migrations
                         principalTable: "Categories",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_products_Shop_ShopOwnerId",
-                        column: x => x.ShopOwnerId,
+                        name: "FK_products_Shop_ShopId",
+                        column: x => x.ShopId,
                         principalTable: "Shop",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -395,9 +395,9 @@ namespace Kashkha.DAL.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_products_ShopOwnerId",
+                name: "IX_products_ShopId",
                 table: "products",
-                column: "ShopOwnerId");
+                column: "ShopId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_ProductId",

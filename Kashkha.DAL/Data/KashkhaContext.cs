@@ -33,7 +33,7 @@ namespace Kashkha.DAL
 				modelBuilder.Entity<Product>()
             .HasOne(p => p.Shop)
             .WithMany(s => s.Products)
-            .HasForeignKey(p => p.ShopOwnerId);
+            .HasForeignKey(p => p.ShopId);
 
 				//modelBuilder.Entity<Order>()
 				//.HasOne(o => o.Shop)

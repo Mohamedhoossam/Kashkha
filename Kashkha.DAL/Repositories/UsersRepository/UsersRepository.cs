@@ -30,7 +30,7 @@ namespace Kashkha.DAL.Repositories.UsersRepository
             
         {
             
-            return Context.Set<User>().Find(id);
+            return Context.Set<User>().Include(u=>u.Shop).FirstOrDefault(u=>u.Id==id);
         }
     }
 }

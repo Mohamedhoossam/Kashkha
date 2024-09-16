@@ -27,6 +27,9 @@ namespace Kashkha.API
 		public int Quantity { get; set; }
 		public int? CategoryId { get; set; }
 		public string? CategoryName { get; set; }
+		public Guid ShopId { get; set; }
+		public string ShopName { get; set; }
+		public string ShopImage { get; set; }
 		public ICollection<Review>? ProductRewiews { get; set; } = new List<Review>();
 
 		//shop owner

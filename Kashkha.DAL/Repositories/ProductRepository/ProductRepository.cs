@@ -26,13 +26,13 @@ namespace Kashkha.DAL
 		public List<Product> GetAllWithCategory()
 		{
 			return _context.Set<Product>()
-				.Include(p => p.Category).Include(p=>p.Rewiews).ToList();
+				.Include(p => p.Category).Include(p=>p.Rewiews).Include(p=>p.Shop).ToList();
 
 		}
 		public Product? GetByIdWithCategory(int id)
 		{
 			return _context.Set<Product>()
-				.Include(p => p.Category)
+				.Include(p => p.Category).Include(p => p.Rewiews).Include(p => p.Shop)
 				.FirstOrDefault(p => p.Id == id);
 		}
 

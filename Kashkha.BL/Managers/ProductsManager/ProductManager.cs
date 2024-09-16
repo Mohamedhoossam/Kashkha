@@ -19,10 +19,10 @@ namespace Kashkha.BL
 			_unitOfWork = unitOfWork;
 			_configuration = configuration;
 		}
-		public void Add(AddProductDto productDto)
+		public void Add(AddProductDto productDto,string userId)
 		{
 			var imageUrl = DocumentSettings.UploadFile(productDto.Image);
-			
+			var user=_unitOfWork._usersRepository.GetFirstOrDefault(userId);
 			_unitOfWork._ProductRepository.Add(new Product()
 			{
 				Name = productDto.ProductName,
@@ -30,14 +30,20 @@ namespace Kashkha.BL
 				Price = productDto.Price,
 				Quantity = productDto.Quantity,
 				PictureUrl= imageUrl ?? string.Empty,
-				CategoryId=productDto.CategoryId
+				CategoryId=productDto.CategoryId,
+				ShopId= (Guid)user.ShopId,
+				
 			});
 			_unitOfWork.Complete();
 		}
 
-		public void Delete(Product product)
+		public int? Delete(Product product,string userId)
 		{
-		
+		   
+			if(product.Shop.UserId != userId)
+			{
+				return null;
+			}
 
 			_unitOfWork._ProductRepository.Delete(product);
 			var result = _unitOfWork.Complete();
@@ -46,6 +52,7 @@ namespace Kashkha.BL
 				if (!string.IsNullOrEmpty(product.PictureUrl))
 					DocumentSettings.DeleteFile(product.PictureUrl);
 			}
+			return result;
 		}
 		public Product Get(int id)
 		{
@@ -56,25 +63,11 @@ namespace Kashkha.BL
 
 		public Product GetWithOutUrl(int id)
 		{
-			var product = _unitOfWork._ProductRepository.GetFirstOrDefault(id);
+			var product = _unitOfWork._ProductRepository.GetByIdWithCategory(id);
 			product.PictureUrl =product.PictureUrl;
 			return product;
 		}
-		//public GetProductDto Get(int id)
-		//{
-		//	var product = _unitOfWork._ProductRepository.GetFirstOrDefault(id);
-
-		//	return (new GetProductDto()
-		//	{
-		//		ProductName=product.Name,
-		//		Description=product.Description,
-		//		Price=product.Price,
-		//		Quantity=product.Quantity,
-		//		ProductRewiews=product.Rewiews,
-		//		Image=product.PictureUrl,
-		//		CategoryId=product.CategoryId,
-		//	});
-		//}
+	
 
 		public List<GetProductDto> GetAll(string? category)
 		{
@@ -93,15 +86,14 @@ namespace Kashkha.BL
 				CategoryId=p.CategoryId,
 				Image= _configuration["ApiBaseUrl"] + p.PictureUrl,
 				CategoryName=p.Category!.Name,
+				ShopId=p.Shop.Id,
+				ShopImage= _configuration["ApiBaseUrl"] + p.Shop.ProfilePicture,
+				ShopName=p.Shop.ShopName,
 				ProductRewiews= p.Rewiews
 			}).ToList();
 		}
 
-		//public List<GetProductDto> SearchProductByName(string name)
-		//{
-		//   return (List<GetProductDto>) _unitOfWork._ProductRepository.SearchProductByName(name);
-		//}
-
+	
 		public void Update(UpdateProductDto product)
 		{
 			var newProduct = _unitOfWork._ProductRepository.GetFirstOrDefault(product.Id);

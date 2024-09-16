@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,8 +23,9 @@ namespace Kashkha.DAL
 		public ICollection<Review>? Rewiews { get; set; } = new List<Review>();
 
 
-       //shop owner
-		public Guid ShopOwnerId { get; set; }
+		//shop owner
+		[ForeignKey("Shop")]
+		public Guid ShopId { get; set; }
 		public Shop? Shop { get; set; }
 
 

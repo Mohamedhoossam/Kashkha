@@ -16,8 +16,8 @@ namespace Kashkha.BL
 		Product Get(int id);
 		public Product GetWithOutUrl(int id);
 
-		void Add(AddProductDto productDto);
-		void Delete(Product product);
+		void Add(AddProductDto productDto, string userId);
+		int? Delete(Product product,string userId);
 		void Update(UpdateProductDto product);
 
 		//List<GetProductDto> SearchProductByName(string name);

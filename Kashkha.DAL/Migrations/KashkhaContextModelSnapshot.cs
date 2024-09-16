@@ -258,14 +258,14 @@ namespace Kashkha.DAL.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("ShopOwnerId")
+                    b.Property<Guid>("ShopId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("ShopOwnerId");
+                    b.HasIndex("ShopId");
 
                     b.ToTable("products");
                 });
@@ -535,7 +535,7 @@ namespace Kashkha.DAL.Migrations
 
                     b.HasOne("Kashkha.DAL.Shop", "Shop")
                         .WithMany("Products")
-                        .HasForeignKey("ShopOwnerId")
+                        .HasForeignKey("ShopId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
