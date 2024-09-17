@@ -28,8 +28,8 @@ public class ShopManager : IShopManager
         {
             UserId = shopOwner.UserId,
             ShopName = shopOwner.ShopName,
-            //  City=shopOwner.Address.City??"",    
-            //Street=shopOwner.Address.Street??"",
+            City=shopOwner.Address.City??"",    
+            Street=shopOwner.Address.Street??"",
             ProfilePicture = _configuration["ApiBaseUrl"] +shopOwner.ProfilePicture,
             Id=shopOwner.Id,
             phone=shopOwner.User.PhoneNumber
@@ -49,16 +49,20 @@ public class ShopManager : IShopManager
     public async Task<int?> AddAsync(ShopOwnerDTO shopOwnerDto)
     {
         var img = DocumentSettings.UploadFile(shopOwnerDto.ProfilePicture);
-
+        Address address = new Address()
+        {
+            City= shopOwnerDto.City,
+            Street=shopOwnerDto.Street,
+            Country="Egypt"
+        };
      //   var shopOwner = _mapper.Map<Shop>(shopOwnerDto);
         await _unitOfWork._shopRepository.AddAsync(new Shop(){
             Id= (Guid)shopOwnerDto.Id,
             ProfilePicture=img,
             ShopName=shopOwnerDto.ShopName,
             UserId=shopOwnerDto.UserId,
-            
-
-        });
+            Address= address
+		});
        int? result= _unitOfWork.Complete();
         if (result is null)
             return null;

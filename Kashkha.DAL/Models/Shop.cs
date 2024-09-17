@@ -19,8 +19,6 @@ namespace Kashkha.DAL
 
 
         public string ShopName { get; set; }
-
-        [NotMapped]
         public Address Address { get; set; }
 
         public string ProfilePicture { get; set; }
