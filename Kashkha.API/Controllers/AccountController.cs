@@ -57,7 +57,7 @@ namespace Kashkha.API.Controllers
                 //check
                 if (!result.Succeeded)
                 {
-                    return BadRequest(result.Errors);
+                    return BadRequest(new { message = result.Errors });
                 }
 
               
@@ -91,10 +91,10 @@ namespace Kashkha.API.Controllers
 					await _shopManager.AddAsync(shop);
 				}
 
-				return Ok("sucessed");
+				return Ok(new { message = "sucessed" });
             }
             var errors=ModelState.Values.Select(x=>x.Errors.Select(y=>y.ErrorMessage));
-            return BadRequest(errors);
+            return BadRequest(new { message = errors });
         }
         #endregion
 
@@ -108,19 +108,19 @@ namespace Kashkha.API.Controllers
             var  user = await userManager.FindByEmailAsync(loginDto.Email);
             if (user == null)
             {
-                return Unauthorized("user not found"); // 401
+                return Unauthorized(new { message = "user not found" }); // 401
             }
 
             bool isAuthenticated = await userManager.CheckPasswordAsync(user, loginDto.Password);
             if (!isAuthenticated)
             {
-                return Unauthorized("password is incorrect"); // 401
+                return Unauthorized(new { message = "password is incorrect" }); // 401
             }
 
             var userClaims = await userManager.GetClaimsAsync(user);
             CreateToken token = new CreateToken();
 
-            return token.GenerateToken(userClaims);
+            return Ok(new { message = "seccess", data = token.GenerateToken(userClaims) });
         }
         #endregion
 

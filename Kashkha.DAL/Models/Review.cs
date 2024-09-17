@@ -18,7 +18,7 @@ namespace Kashkha.DAL
 
 		public int ProductId { get; set; }
 
-		//[JsonIgnore]
+		[JsonIgnore]
 		public Product? Product { get; set; }
 
 			public DateTime? CreatedDate { get; set; }=DateTime.Now;

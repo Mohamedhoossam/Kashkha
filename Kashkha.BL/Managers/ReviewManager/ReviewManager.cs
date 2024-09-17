@@ -21,10 +21,12 @@ namespace Kashkha.BL
 			_unitOfWork.Complete();
 		}
 
-		public void Delete(Review review)
+		public int? Delete(Review review,string userId)
 		{
+			if (review.UserId != userId)
+				return null;
 			_unitOfWork._reviewRepository.Delete(review);
-			_unitOfWork.Complete();
+			return _unitOfWork.Complete();
 		}
 
 		public int? Update(ReviewUpdateDto reviewDto)
@@ -32,7 +34,7 @@ namespace Kashkha.BL
 			var review = _unitOfWork._reviewRepository.GetFirstOrDefault(reviewDto.ReviewId);
 			if (review != null)
 			{
-				review.UserId=reviewDto.CustomerComment;
+				review.UserComment=reviewDto.userComment;
 				return _unitOfWork.Complete();
 			}
 			else

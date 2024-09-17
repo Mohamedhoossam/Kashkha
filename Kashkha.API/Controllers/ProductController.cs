@@ -22,7 +22,7 @@ namespace Kashkha.API.Controllers
 
 		public ActionResult GetAll([FromQuery] string? categoryName,Guid? shopId)
 		{
-			return Ok(_productManager.GetAll(categoryName, shopId));
+			return Ok(new { message = "seccess", data = _productManager.GetAll(categoryName, shopId) });
 
 		}
 
@@ -58,8 +58,8 @@ namespace Kashkha.API.Controllers
 
 			var result = _productManager.Delete(_productManager.GetWithOutUrl(id), userId);
 			if (result is null)
-				return BadRequest("you not have access to this data");
-			return NoContent();
+				return BadRequest(new { message ="you not have access to this data" });
+			return Ok(new { message = "seccess" });
 		}
 
 		[HttpPut]
@@ -71,9 +71,9 @@ namespace Kashkha.API.Controllers
 			var result=_productManager.Update(updateProduct,userId);
 			if(result is null)
 			{
-				BadRequest("you not have access to this data");
+				BadRequest( new { message = "you not have access to this data" });
 			}
-			return NoContent();
+			return Ok(new { message = "seccess" });
 
 		}
 

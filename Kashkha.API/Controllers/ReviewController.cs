@@ -1,5 +1,6 @@
 ﻿using Kashkha.BL;
 using Kashkha.DAL;
+using Kashkha.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,8 @@ namespace Kashkha.API.Controllers
 
 			if (reviewDto is null)
 			{
-				return BadRequest("The comment must not be empty");
+
+				return BadRequest(new { message = "The comment must not be empty" });
 			}
 			_reviewManager.Add(new Review()
 			{
@@ -37,20 +39,24 @@ namespace Kashkha.API.Controllers
 				UserName = usernName,
 				ProductId = reviewDto.ProductId,
 			}) ;
-			return Ok(reviewDto);
+
+			return Ok(new { message ="seccess",data= reviewDto });
 		}
 
 		[HttpDelete("{id:int}")]
 		public ActionResult DeleteReview([FromRoute] int id)
 		{
+			var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
 			var review = _reviewManager.GetById(id);
 			if (review is null)
 			{
 				return NotFound("No review found");
 			}
-			_reviewManager.Delete(review);
-			return NoContent();
+			var result=_reviewManager.Delete(review,userId);
+			if (result is null)
+				return BadRequest(new {message= "you not have access to this review" });
+			return Ok(new { message ="success"});
 		}
 
 		[HttpPut]
@@ -58,14 +64,15 @@ namespace Kashkha.API.Controllers
 		{
 			if (reviewDto is null)
 			{
-				return NotFound("No review found");
+				return NotFound(new { message = "No review found" });
 			}
 
 		   var result=	_reviewManager.Update(reviewDto);
 			if (result is null)
-				return NotFound();
+				return BadRequest(new { message = "you not have access to this review" });
 
-			return NoContent();
+
+			return Ok(new { message = "success" });
 		}
 
 

@@ -11,7 +11,7 @@ namespace Kashkha.BL
 	public interface IReviewManager
 	{
 		void Add(Review review);
-		void Delete(Review review);
+		int? Delete(Review review, string userId);
 		int? Update(ReviewUpdateDto reviewDto);
 		Review GetById(int id);
 	}
