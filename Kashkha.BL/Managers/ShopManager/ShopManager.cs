@@ -1,6 +1,8 @@
 using AutoMapper;
 using Kashkha.BL;
+using Kashkha.BL.DTOs.ShopOwnerDTOs;
 using Kashkha.DAL;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,18 +11,33 @@ public class ShopManager : IShopManager
 {
 	private readonly IUnitOfWork _unitOfWork;
 	private readonly IMapper _mapper;
+    private readonly IConfiguration _configuration;
 
-    public ShopManager(IUnitOfWork unitOfWork, IMapper mapper)
+    public ShopManager(IUnitOfWork unitOfWork, IMapper mapper,IConfiguration configuration)
     {
       
 		_unitOfWork = unitOfWork;
 		_mapper = mapper;
+        _configuration = configuration;
     }
 
-    public async Task<ShopOwnerDTO> GetByIdAsync(Guid id)
+    public async Task<GetOwnerinfo> GetByIdAsync(string id)
     {
         var shopOwner = await _unitOfWork._shopRepository.GetByIdAsync(id);
-        return _mapper.Map<ShopOwnerDTO>(shopOwner);
+        return (new GetOwnerinfo()
+        {
+            UserId = shopOwner.UserId,
+            ShopName = shopOwner.ShopName,
+            //  City=shopOwner.Address.City??"",    
+            //Street=shopOwner.Address.Street??"",
+            ProfilePicture = _configuration["ApiBaseUrl"] +shopOwner.ProfilePicture,
+            Id=shopOwner.Id,
+            phone=shopOwner.User.PhoneNumber
+
+
+            
+
+        });
     }
 
     // public async Task<IEnumerable<ShopOwnerDTO>> GetAllAsync()

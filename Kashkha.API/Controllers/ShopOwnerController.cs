@@ -1,6 +1,8 @@
+using Kashkha.BL.DTOs.ShopOwnerDTOs;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 [ApiController]
@@ -14,10 +16,15 @@ public class ShopOwnerController : ControllerBase
         _shopOwnerManager = shopOwnerManager;
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<ShopOwnerDTO>> GetById(Guid id)
+    [HttpGet]
+    [Route("{id}")]
+
+    public async Task<ActionResult<GetOwnerinfo>> GetById(string id)
     {
         var shopOwner = await _shopOwnerManager.GetByIdAsync(id);
+        var user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        
         if (shopOwner == null)
         {
             return NotFound();

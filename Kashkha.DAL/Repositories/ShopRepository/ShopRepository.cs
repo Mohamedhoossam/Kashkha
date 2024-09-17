@@ -15,9 +15,9 @@ namespace Kashkha.DAL
             _context = context;
         }
 
-        public async Task<Shop> GetByIdAsync(Guid id)
+        public async Task<Shop> GetByIdAsync(string id)
         {
-            return await _context.Shop.FindAsync(id);
+            return await _context.Shop.Include(u=>u.User).FirstOrDefaultAsync(u=>u.UserId==id);
         }
 
         // public async Task<IEnumerable<ShopOwner>> GetAllAsync()

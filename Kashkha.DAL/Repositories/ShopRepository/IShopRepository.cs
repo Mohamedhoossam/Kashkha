@@ -8,7 +8,7 @@ namespace Kashkha.DAL
 {
     public interface IShopRepository:IGenericRepository<Shop>
     {
-        Task<Shop> GetByIdAsync(Guid id);
+        Task<Shop> GetByIdAsync(string id);
         //  Task<IEnumerable<ShopOwner>> GetAllAsync();
         Task<Shop> AddAsync(Shop shop);
         Task UpdateAsync(Shop shop);
