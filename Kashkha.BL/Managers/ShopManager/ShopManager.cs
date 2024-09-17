@@ -24,20 +24,23 @@ public class ShopManager : IShopManager
     public async Task<GetOwnerinfo> GetByIdAsync(string id)
     {
         var shopOwner = await _unitOfWork._shopRepository.GetByIdAsync(id);
-        return (new GetOwnerinfo()
+        var shopOwnerData = new GetOwnerinfo()
         {
             UserId = shopOwner.UserId,
             ShopName = shopOwner.ShopName,
-            City=shopOwner.Address.City??"",    
-            Street=shopOwner.Address.Street??"",
-            ProfilePicture = _configuration["ApiBaseUrl"] +shopOwner.ProfilePicture,
-            Id=shopOwner.Id,
-            phone=shopOwner.User.PhoneNumber
+            City = shopOwner.Address.City ?? "",
+            Street = shopOwner.Address.Street ?? "",
+            ProfilePicture = _configuration["ApiBaseUrl"] + shopOwner.ProfilePicture,
+            Id = shopOwner.Id,
+            phone = shopOwner.User.PhoneNumber,
+            Product = shopOwner.Products
+        };
+        foreach(var i in shopOwnerData.Product)
+        {
+            i.PictureUrl = _configuration["ApiBaseUrl"] + i.PictureUrl;
+		}
 
-
-            
-
-        });
+		return shopOwnerData;
     }
 
     // public async Task<IEnumerable<ShopOwnerDTO>> GetAllAsync()

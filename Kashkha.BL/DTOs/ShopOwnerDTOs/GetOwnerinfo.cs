@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Kashkha.DAL;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,5 +23,6 @@ namespace Kashkha.BL.DTOs.ShopOwnerDTOs
         public string? Street { get; set; }
 
         public string? ProfilePicture { get; set; }
-    }
+        public ICollection<Product>? Product { get;set;}=new List<Product>();
+	}
 }

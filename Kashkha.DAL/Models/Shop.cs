@@ -23,7 +23,7 @@ namespace Kashkha.DAL
 
         public string ProfilePicture { get; set; }
 
-        public ICollection<Product> Products { get; set; }
+        public ICollection<Product> Products { get; set; }=new List<Product>();
         // public ICollection<Order> Orders { get; set; }
     }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 
@@ -26,6 +27,7 @@ namespace Kashkha.DAL
 		//shop owner
 		[ForeignKey("Shop")]
 		public Guid ShopId { get; set; }
+		[JsonIgnore]
 		public Shop? Shop { get; set; }
 
 
