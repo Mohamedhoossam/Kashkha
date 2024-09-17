@@ -10,10 +10,10 @@ namespace Kashkha.BL
 {
 	public interface IProductManager
 	{
-
+		
 		List<GetProductDto> GetAll(string? category,Guid? shopId);
 
-		Product Get(int id);
+		GetProductDto Get(int id);
 		public Product GetWithOutUrl(int id);
 
 		void Add(AddProductDto productDto, string userId);

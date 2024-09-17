@@ -54,11 +54,25 @@ namespace Kashkha.BL
 			}
 			return result;
 		}
-		public Product Get(int id)
+		public GetProductDto Get(int id)
 		{
-			var product = _unitOfWork._ProductRepository.GetFirstOrDefault(id);
+			var product = _unitOfWork._ProductRepository.GetByIdWithCategory(id);
 			product.PictureUrl = _configuration["ApiBaseUrl"] + product.PictureUrl;
-			return product;
+			 return  new GetProductDto()
+			{
+				Id = product.Id,
+				ProductName = product.Name,
+				Description = product.Description,
+				Price = product.Price,
+				Quantity = product.Quantity,
+				CategoryId = product.CategoryId,
+				Image = _configuration["ApiBaseUrl"] + product.PictureUrl,
+				CategoryName = product.Category!.Name,
+				ShopId = product.Shop.Id,
+				ShopImage = _configuration["ApiBaseUrl"] + product.Shop.ProfilePicture,
+				ShopName = product.Shop.ShopName,
+				ProductRewiews = product.Rewiews
+			};
 		}
 
 		public Product GetWithOutUrl(int id)
