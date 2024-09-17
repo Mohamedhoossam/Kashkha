@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kashkha.DAL.Migrations
 {
     [DbContext(typeof(KashkhaContext))]
-    [Migration("20240917163618_second")]
-    partial class second
+    [Migration("20240917195916_first")]
+    partial class first
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

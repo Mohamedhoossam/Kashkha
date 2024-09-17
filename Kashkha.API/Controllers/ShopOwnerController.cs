@@ -1,4 +1,5 @@
 using Kashkha.BL.DTOs.ShopOwnerDTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -17,19 +18,22 @@ public class ShopOwnerController : ControllerBase
     }
 
     [HttpGet]
-    [Route("{id}")]
-
-    public async Task<ActionResult<GetOwnerinfo>> GetById(string id)
+    [Authorize(Roles ="Shop Owner")]
+	// [Route("{id}")]
+	//string id
+	public async Task<ActionResult<GetOwnerinfo>> GetById()
     {
-        var shopOwner = await _shopOwnerManager.GetByIdAsync(id);
-        var user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+		var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+
+		var shopOwner = await _shopOwnerManager.GetByIdAsync(userId);
 
         
         if (shopOwner == null)
         {
             return NotFound();
         }
-        return Ok(shopOwner);
+        return Ok(new {message="seccess",data= shopOwner});
     }
 
     // [HttpGet]

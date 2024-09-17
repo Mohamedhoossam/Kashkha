@@ -23,6 +23,7 @@ namespace Kashkha.BL
 		{
 			var imageUrl = DocumentSettings.UploadFile(productDto.Image);
 			var user=_unitOfWork._usersRepository.GetFirstOrDefault(userId);
+
 			_unitOfWork._ProductRepository.Add(new Product()
 			{
 				Name = productDto.ProductName,
