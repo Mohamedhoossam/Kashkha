@@ -27,12 +27,9 @@ namespace Kashkha.DAL
             return await _context.Favorites.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Favorite>> GetByUserIdAsync(string userId)
+        public async Task<List<Favorite>> GetByUserIdAsync(string userId)
         {
-            return await _context.Favorites
-                .Where(f => f.UserId == userId)
-                .Include(f => f.ProductId)
-                .ToListAsync();
+            return await _context.Favorites.Include(f => f.Product).Include(f=>f.Product.Category).Include(f=>f.Product.Shop).Where(f => f.UserId == userId).ToListAsync();
         }
 
         public async Task<bool> RemoveAsync(int id)

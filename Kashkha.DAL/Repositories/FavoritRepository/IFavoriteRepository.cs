@@ -12,7 +12,7 @@ namespace Kashkha.DAL
 
         Task<Favorite> GetByIdAsync(int id);
 
-        Task<IEnumerable<Favorite>> GetByUserIdAsync(string userId);
+        Task<List<Favorite>> GetByUserIdAsync(string userId);
 
         Task<bool> RemoveAsync(int id);
 

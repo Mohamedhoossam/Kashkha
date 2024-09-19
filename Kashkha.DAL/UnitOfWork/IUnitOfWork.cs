@@ -16,6 +16,7 @@ namespace Kashkha.DAL
 		public ICartRepository _cartRepository { get; }
         public IUsersRepository _usersRepository { get; }
         public IShopRepository _shopRepository { get; }
+        public IFavoriteRepository _favoriteRepository { get; }
 
 
 

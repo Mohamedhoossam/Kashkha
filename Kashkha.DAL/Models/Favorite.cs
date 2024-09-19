@@ -10,20 +10,15 @@ namespace Kashkha.DAL
 {
 	public class Favorite
 	{
-		
-      
         public int Id { get; set; }
 
         [ForeignKey("User")]
         public string UserId { get; set; }
         public User? User { get; set; }
-
-
         [ForeignKey("Product")]
         public int ProductId { get; set; }
-        [NotMapped]
+        //[NotMapped]
         public Product? Product { get; set; }
-
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 	}
 }

@@ -1,41 +1,56 @@
 using AutoMapper;
 using Kashkha.BL.DTOs;
+using Kashkha.BL.DTOs.FavoriteDTOs;
 using Kashkha.DAL;
+using Microsoft.Extensions.Configuration;
 
 public class FavoriteManager : IFavoriteManager
 {
-    private readonly IFavoriteRepository _favoriteRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+	private readonly IConfiguration _configuration;
 
-    public FavoriteManager(IFavoriteRepository favoriteRepository, IMapper mapper)
+	public FavoriteManager(IUnitOfWork unitOfWork, IMapper mapper,IConfiguration configuration)
     {
-        _favoriteRepository = favoriteRepository;
+		_unitOfWork = unitOfWork;
         _mapper = mapper;
-    }
+		_configuration = configuration;
+	}
 
-    public async Task<FavoriteDTO> AddFavoriteAsync(string userId, int productId)
+    public async Task<FavoriteDTO?> AddFavoriteAsync(string userId, int productId)
     {
-        if (await _favoriteRepository.ExistsAsync(userId, productId))
+        if (await _unitOfWork._favoriteRepository.ExistsAsync(userId, productId))
+        {
+            return null;
+        }
             throw new InvalidOperationException("Favorite already exists");
 
         var favorite = new Favorite { UserId = userId, ProductId = productId };
-        var result = await _favoriteRepository.AddAsync(favorite);
+        var result = await _unitOfWork._favoriteRepository.AddAsync(favorite);
         return _mapper.Map<FavoriteDTO>(result);
     }
 
     public async Task<bool> RemoveFavoriteAsync(int favoriteId)
     {
-        return await _favoriteRepository.RemoveAsync(favoriteId);
+        return await _unitOfWork._favoriteRepository.RemoveAsync(favoriteId);
     }
 
-    public async Task<IEnumerable<FavoriteDTO>> GetUserFavoritesAsync(string userId)
+    public async Task<List<GetFavoriteDto>> GetUserFavoritesAsync(string userId)
     {
-        var favorites = await _favoriteRepository.GetByUserIdAsync(userId);
-        return _mapper.Map<IEnumerable<FavoriteDTO>>(favorites);
-    }
+       var favorites = await _unitOfWork._favoriteRepository.GetByUserIdAsync(userId);
+        foreach(var p in favorites)
+        {
+            p.Product.PictureUrl = _configuration["ApiBaseUrl"] + p.Product.PictureUrl;
+            p.Product.Shop.ProfilePicture = _configuration["ApiBaseUrl"] + p.Product.Shop.ProfilePicture;
+
+		}
+        return _mapper.Map<List<GetFavoriteDto>>(favorites);
+	}
 
     public async Task<bool> IsFavoriteAsync(string userId, int productId)
     {
-        return await _favoriteRepository.ExistsAsync(userId, productId);
+        return await _unitOfWork._favoriteRepository.ExistsAsync(userId, productId);
     }
+
+
 }

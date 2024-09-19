@@ -46,6 +46,7 @@ namespace Kashkha.API
             builder.Services.AddScoped<ICartManager, CartManager>();
 			builder.Services.AddScoped<ICartRepository, CartRepository>();
 			builder.Services.AddScoped<IShopManager, ShopManager>();
+			builder.Services.AddScoped<IFavoriteManager, FavoriteManager>();
             builder.Services.AddSingleton<IConnectionMultiplexer>(option =>
 			{
                 var connection = builder.Configuration.GetConnectionString("RedisConnection");

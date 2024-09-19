@@ -19,10 +19,14 @@ public class FavoriteController : ControllerBase
     }
 
     [HttpPost("add")]
-    public async Task<ActionResult<FavoriteDTO>> AddFavorite(int productId)
+    public async Task<ActionResult<FavoriteDTO>> AddFavorite([FromQuery]int productId)
     {
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         var favorite = await _favoriteManager.AddFavoriteAsync(userId, productId);
+        if(favorite == null)
+        {
+            return BadRequest(new { message = "Favorite already exists" });
+        }
         return CreatedAtAction(nameof(GetUserFavorites), new { }, favorite);
     }
 
